@@ -23,6 +23,9 @@ const Home: NextPage = () => {
 
       map.on('load', () => {
         mapInstance.current = map
+        if (start.current?.length && end.current?.length) {
+          getRoute()
+        }
       })
 
       map.on('click', (event) => addMarker(event))
@@ -48,26 +51,72 @@ const Home: NextPage = () => {
     console.log(coordinates[0].lng)
   }
 
-  const addMarker = (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
-    if (mapInstance.current && markersRef.current.length < 3) {
-      const marker = new mapboxgl.Marker().setLngLat(event.lngLat).addTo(mapInstance.current)
-      markersRef.current.push(marker)
-    } else {
-      alert("Maximum 3 markers can be added!")
-    } 
-
-    if(markersRef.current.length > 2) {
-      const coordinates = getMarkerCoordinates()
-        start.current = [coordinates[0].lng,coordinates[0].lat]
-        end.current = [coordinates[1].lng,coordinates[1].lat]
+  const handleRoute = () =>{
+    if (start.current?.length && end.current?.length) {
+      getRoute()
     }
   }
+
+  const addMarker = (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
+    if (!mapInstance.current) return
+    if (!start.current?.length) {
+      start.current = [event.lngLat.lng, event.lngLat.lat]
+      new mapboxgl.Marker().setLngLat(event.lngLat).addTo(mapInstance.current)
+    } else if (!end.current?.length) {
+      end.current = [event.lngLat.lng, event.lngLat.lat]
+      new mapboxgl.Marker().setLngLat(event.lngLat).addTo(mapInstance.current)
+    }
+  } 
+
+  async function getRoute() {
+    if (!start.current?.length || !end.current?.length) {
+      return
+    }
+
+    const query = await fetch(
+      `https://api.mapbox.com/directions/v5/mapbox/cycling/${start.current[0]},${start.current[1]};${end.current[0]},${end.current[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
+      { method: 'GET' }
+    );
+    const json = await query.json()
+    const data = json.routes[0]
+    const geojson = {
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        type: 'LineString',
+        coordinates: data.geometry.coordinates
+      }
+    }
+
+    if (mapInstance.current.getSource('route')) {
+      mapInstance.current.getSource('route').setData(geojson)
+    } else {
+      mapInstance.current.addLayer({
+        id: 'route',
+        type: 'line',
+        source: {
+          type: 'geojson',
+          data: geojson
+        },
+        layout: {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        paint: {
+          'line-color': '#3887be',
+          'line-width': 5,
+          'line-opacity': 0.75
+        }
+      })
+    } 
+  }
+  
 
   return (
     <div>
       <div ref={mapContainerRef} style={{ width: '100%', height: '500px' }} />
       <button onClick={handleShowCoordinates}>Show Marker Coordinates</button>
-
+      <button onClick={handleRoute}>Plan route</button>
     </div>
   )
 }
