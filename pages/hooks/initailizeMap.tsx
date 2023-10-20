@@ -3,13 +3,13 @@ import mapboxgl, { Control, IControl } from "mapbox-gl"
 
 interface InitializeMapProps {
     mapContainerRef: React.RefObject<HTMLDivElement>
-    mapInstance: React.RefObject<mapboxgl.Map>
-    geocoderRef: React.RefObject<Control | IControl>
+    mapInstance: React.MutableRefObject<mapboxgl.Map | null>
+    geocoderRef: React.MutableRefObject<MapboxGeocoder | null>
     addMarker: (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => void
     addMarkerBasedOnCoordinates: (lng: number, lat: number) => void
     markersRef: React.RefObject<mapboxgl.Marker[]>
     waypoints: React.RefObject<number[][]>
-    access_token: string 
+    access_token: string
   }
 
 const initializeMap = ({

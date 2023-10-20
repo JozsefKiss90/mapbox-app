@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
-import { useEffect, useRef, useState } from 'react'
-import mapboxgl, { Control, IControl } from 'mapbox-gl'
+import { Dispatch, MutableRefObject, SetStateAction, useEffect, useRef, useState } from 'react'
+import mapboxgl, { Control, Expression, IControl, StyleFunction } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import getRoute from './hooks/getRoute'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
@@ -11,16 +11,16 @@ import { Button, Drawer, Typography, TextField, InputLabel, Input, Slider, Box }
 
 const Home: NextPage = () => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null)
-  const mapInstance: React.MutableRefObject<mapboxgl.Map | null> = useRef(null);
-  const markersRef = useRef<Array<mapboxgl.Marker>>([])
+  const mapInstance = useRef<mapboxgl.Map | null>(null)
+  const markersRef = useRef<Array<mapboxgl.Marker >>([])
   const [routeLength, setRouteLength] = useState<string>('')
   const waypoints = useRef<Array<number[]>>([])
-  const geocoderRef= useRef<MapboxGeocoder> (null)
+  const geocoderRef = useRef<MapboxGeocoder | null>(null);
   const [searchValue, setSearchValue] = useState<string>('')
   const [routeColor, setRouteColor] = useState<string>('#FF0000') 
-  const [routeThickness, setRouteThickness] = useState<number>(5)
+  const [routeThickness, setRouteThickness] = useState<number>(5);
 
-  const access_token : string   = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
+  const access_token : string  = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN!
   console.log(access_token)
   useEffect(() => {
     if (mapContainerRef.current) {
@@ -133,12 +133,15 @@ return (
               </Typography>
               <Slider
                   value={routeThickness}
-                  onChange={(e, newValue) => setRouteThickness(newValue)}
+                  onChange={(e, newValue) => {
+                    if (typeof newValue === 'number') {
+                        setRouteThickness(newValue);
+                    }
+                }}
                   min={1}
                   max={10}
                   style={{ marginBottom: '16px' }}
               />
-
               <Typography color="textSecondary">
                   {routeLength}
               </Typography>

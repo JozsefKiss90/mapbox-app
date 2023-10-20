@@ -1,10 +1,13 @@
+import { Feature, LineString } from "geojson"
+import { Expression, StyleFunction } from "mapbox-gl"
+
 interface GetRouteProps {
-    mapInstance: React.RefObject<mapboxgl.Map>;
-    waypoints: React.RefObject<number[][]>;
-    setRouteLength: (length: string) => void;
-    access_token: string | undefined;
-    routeColor: string;
-    routeThickness: number;
+    mapInstance: React.RefObject<mapboxgl.Map>
+    waypoints: React.RefObject<number[][]>
+    setRouteLength: (length: string) => void
+    access_token: string | undefined
+    routeColor: string
+    routeThickness: number
 }
 
 const getRoute = async ({
@@ -24,24 +27,27 @@ const getRoute = async ({
       `https://api.mapbox.com/directions/v5/mapbox/cycling/${waypointStr}?steps=true&geometries=geojson&access_token=${access_token}`,
       { method: 'GET' }
     )
-    console.log(`https://api.mapbox.com/directions/v5/mapbox/cycling/${waypointStr}?steps=true&geometries=geojson&access_token=${access_token}`,
-    )
+    
       const json = await query.json()
       const data = json.routes[0]
-      const geojson = {
+      const geojson: Feature<LineString> = {
         type: 'Feature',
         properties: {},
         geometry: {
-          type: 'LineString',
-          coordinates: data.geometry.coordinates
+            type: 'LineString',
+            coordinates: data.geometry.coordinates
         }
-      }
+    }
       console.log(data)
       const distanceInKm = (data.distance / 1000).toFixed(2)
       setRouteLength(`Route Length: ${distanceInKm} km`)
-  
+ 
       if (mapInstance.current!.getSource('route')) {
-        mapInstance.current!.getSource('route').setData(geojson)
+        const source = mapInstance.current!.getSource('route')
+      if ('setData' in source) {
+          source.setData(geojson)
+      }
+
       } else {
         mapInstance.current!.addLayer({
           id: 'route',
