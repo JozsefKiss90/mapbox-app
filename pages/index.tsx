@@ -4,10 +4,10 @@ import mapboxgl, { Control, Expression, IControl, StyleFunction } from 'mapbox-g
 import 'mapbox-gl/dist/mapbox-gl.css'
 import getRoute from './hooks/getRoute'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
-import styles from '../styles/Mabox.module.css'
+import styles from '../styles/Mapbox.module.css'
 import initializeMap from './hooks/initailizeMap'
 import { Button, Drawer, Typography, TextField, InputLabel, Input, Slider, Box } from '@mui/material'
-
+import Autocomplete from '@mui/lab/Autocomplete'
 
 const Home: NextPage = () => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null)
@@ -15,13 +15,14 @@ const Home: NextPage = () => {
   const markersRef = useRef<Array<mapboxgl.Marker >>([])
   const [routeLength, setRouteLength] = useState<string>('')
   const waypoints = useRef<Array<number[]>>([])
-  const geocoderRef = useRef<MapboxGeocoder | null>(null);
+  const geocoderRef = useRef<MapboxGeocoder | null>(null)
   const [searchValue, setSearchValue] = useState<string>('')
   const [routeColor, setRouteColor] = useState<string>('#FF0000') 
-  const [routeThickness, setRouteThickness] = useState<number>(5);
-
+  const [routeThickness, setRouteThickness] = useState<number>(5)
+  const [options, setOptions] = useState<Array<string>>([])
+  const [selectedCoordinates, setSelectedCoordinates] = useState<[number, number] | null>(null)
+  console.log(mapInstance, geocoderRef)
   const access_token : string  = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN!
-  console.log(access_token)
   useEffect(() => {
     if (mapContainerRef.current) {
       initializeMap(
@@ -29,7 +30,7 @@ const Home: NextPage = () => {
         mapInstance, 
         geocoderRef,  
         addMarker,
-        addMarkerBasedOnCoordinates,
+        setOptions,
         markersRef,
         waypoints,
         access_token
@@ -38,16 +39,15 @@ const Home: NextPage = () => {
     }
   }, [])
 
-  const handleInputChage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault() 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
     const inputValue = e.target.value
     setSearchValue(inputValue)
-    console.log(inputValue)
-    if(geocoderRef.current){
+    if (geocoderRef.current) {
       geocoderRef.current.setInput(inputValue)
     }
-}
-
+  }
+  
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault() 
@@ -64,14 +64,22 @@ const Home: NextPage = () => {
   }
 
   const addMarker = (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
+    //console.log(event.lngLat.lng, event.lngLat.lat)
     addMarkerBasedOnCoordinates(event.lngLat.lng, event.lngLat.lat)
+  }
+
+  const handleAddMarkerClick = () => {
+    if (selectedCoordinates) {
+        addMarkerBasedOnCoordinates(selectedCoordinates[0], selectedCoordinates[1])
+        setSelectedCoordinates(null)
+    }
   }
 
 
 const addMarkerBasedOnCoordinates = (lng: number, lat: number) => {
   if (mapInstance.current && waypoints.current.length < 3) { 
-    console.log("Lng:", lng, "Lat:", lat)
-      const marker = new mapboxgl.Marker().setLngLat([lng, lat]).addTo(mapInstance.current)
+    const marker = new mapboxgl.Marker({ color: 'blue' }).setLngLat([lng, lat]).addTo(mapInstance.current);
+    console.log(marker)
       waypoints.current.push([lng, lat])
   } else {
       alert(`Maximum ${waypoints.current.length} markers can be added!`)
@@ -87,64 +95,83 @@ return (
               sx={{ width: 240, padding: 2 }}
               role="presentation"
           >
-              <Typography variant="h6" gutterBottom>
-                  Map Settings
-              </Typography>
+            <Typography variant="h6" gutterBottom>
+                Map Settings
+            </Typography>
 
-              <form onSubmit={handleSubmit}>
-                  <TextField
-                      fullWidth
-                      label="Search"
-                      variant="outlined"
-                      value={searchValue}
-                      onChange={handleInputChage}
-                      style={{ marginBottom: '16px' }}
-                  />
-                  <Button 
-                      variant="contained" 
-                      color="primary" 
-                      type="submit"
-                      style={{ marginBottom: '16px' }}
-                  >
-                      Add Marker
-                  </Button>
-              </form>
+            <form onSubmit={handleSubmit}>
+            <Autocomplete
+                freeSolo
+                fullWidth
+                options={options}
+                getOptionLabel={(option) => option.label}
+                renderInput={(params) => (
+                    <TextField 
+                        {...params} 
+                        fullWidth 
+                        label="Search" 
+                        variant="outlined" 
+                        value={searchValue}
+                        onChange={handleInputChange}
+                        style={{ marginBottom: '16px' }}
+                    />
+                )}
 
-              <Button 
-                  variant="contained" 
-                  color="secondary" 
-                  onClick={handleRoute}
-                  style={{ marginBottom: '16px' }}
-              >
-                  Plan Route
-              </Button>
-
-              <InputLabel>Route Color</InputLabel>
-              <Input 
-                  type="color" 
-                  value={routeColor} 
-                  fullWidth
-                  onChange={(e) => setRouteColor(e.target.value)}
-                  style={{ marginBottom: '16px', cursor: 'pointer' }}
+                onChange={(event, newValue) => {
+                  if (newValue && newValue.coordinates){
+                      setSelectedCoordinates(newValue.coordinates)
+                  } else {
+                      setSelectedCoordinates(null)
+                  }
+              }}
+              
               />
+                <Button 
+                    variant="contained" 
+                    color="primary" 
+                    type="submit"
+                    onClick={handleAddMarkerClick}
+                    style={{ marginBottom: '16px' }}
+                >
+                    Add Marker
+                </Button>
+            </form>
 
-              <Typography gutterBottom>
-                  Route Thickness: {routeThickness}
-              </Typography>
-              <Slider
-                  value={routeThickness}
-                  onChange={(e, newValue) => {
-                    if (typeof newValue === 'number') {
-                        setRouteThickness(newValue);
-                    }
-                }}
-                  min={1}
-                  max={10}
-                  style={{ marginBottom: '16px' }}
-              />
-              <Typography color="textSecondary">
-                  {routeLength}
-              </Typography>
+            <Button 
+                variant="contained" 
+                color="secondary" 
+                onClick={handleRoute}
+                style={{ marginBottom: '16px' }}
+            >
+                Plan Route
+            </Button>
+
+            <InputLabel>Route Color</InputLabel>
+            <Input 
+                type="color" 
+                value={routeColor} 
+                fullWidth
+                onChange={(e) => setRouteColor(e.target.value)}
+                style={{ marginBottom: '16px', cursor: 'pointer' }}
+            />
+
+            <Typography gutterBottom>
+                Route Thickness: {routeThickness}
+            </Typography>
+            <Slider
+                value={routeThickness}
+                onChange={(e, newValue) => {
+                  if (typeof newValue === 'number') {
+                      setRouteThickness(newValue)
+                  }
+              }}
+                min={1}
+                max={10}
+                style={{ marginBottom: '16px' }}
+            />
+            <Typography color="textSecondary">
+                {routeLength}
+            </Typography>
           </Box>
       </Drawer>
 
