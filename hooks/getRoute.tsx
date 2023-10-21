@@ -21,8 +21,8 @@ const getRoute = async ({
     if (waypoints!.current!.length < 2) { 
       return
     }
-  
     const waypointStr =  waypoints.current!.map((waypoint : number[])=> `${waypoint[0]},${waypoint[1]}`).join(';')
+
     const query = await fetch(
       `https://api.mapbox.com/directions/v5/mapbox/cycling/${waypointStr}?steps=true&geometries=geojson&access_token=${access_token}`,
       { method: 'GET' }
@@ -38,7 +38,6 @@ const getRoute = async ({
             coordinates: data.geometry.coordinates
         }
     }
-      console.log(data)
       const distanceInKm = (data.distance / 1000).toFixed(2)
       setRouteLength(`Route Length: ${distanceInKm} km`)
  

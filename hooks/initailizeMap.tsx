@@ -17,6 +17,7 @@ interface InitializeMapProps {
     waypoints: React.RefObject<number[][]>
     access_token: string
   }
+  
 
   const initializeMap = ({
     mapContainerRef,
