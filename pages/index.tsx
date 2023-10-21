@@ -3,6 +3,7 @@ import type { NextPage } from 'next'
 import { useEffect, useRef } from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import initializeMap from './hooks/initializeMap'
 
 const Home: NextPage = () => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null)
@@ -11,33 +12,15 @@ const Home: NextPage = () => {
   const start = useRef<number[] | null>([])
   const end = useRef<number[] | null>([])
 
+  const setMapInstance = (map: mapboxgl.Map) => {
+    mapInstance.current = map;
+  }
+
   useEffect(() => {
-    const initializeMap = () => {
-      const map = new mapboxgl.Map({
-        container: mapContainerRef.current!,
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [17.9115, 47.0910], 
-        zoom: 12
-      }) as any
-
-
-      map.on('load', () => {
-        mapInstance.current = map
-      })
-
-      map.on('click', (event:any) => addMarker(event))
-
-      return () => {
-        map.remove()
-        markersRef.current.forEach(marker => marker.remove())
-      }
-    }
-
     if (mapContainerRef.current) {
-      initializeMap()
+      initializeMap(mapContainerRef.current, addMarker, setMapInstance);
     }
-  }, [])
-
+  }, []);
   const getMarkerCoordinates = () => {
     return markersRef.current.map(marker => marker.getLngLat())
   }
