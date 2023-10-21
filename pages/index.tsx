@@ -25,7 +25,7 @@ const Home: NextPage = () => {
         mapInstance.current = map
       })
 
-      map.on('click', (event) => addMarker(event))
+      map.on('click', (event:any) => addMarker(event))
 
       return () => {
         map.remove()
