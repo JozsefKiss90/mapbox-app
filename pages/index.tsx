@@ -9,6 +9,12 @@ import initializeMap from './hooks/initailizeMap'
 import { Button, Drawer, Typography, TextField, InputLabel, Input, Slider, Box } from '@mui/material'
 import Autocomplete from '@mui/lab/Autocomplete'
 
+
+interface Option {
+  label: string;
+  coordinates: [number, number];
+}
+
 const Home: NextPage = () => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null)
   const mapInstance = useRef<mapboxgl.Map | null>(null)
@@ -19,11 +25,17 @@ const Home: NextPage = () => {
   const [searchValue, setSearchValue] = useState<string>('')
   const [routeColor, setRouteColor] = useState<string>('#FF0000') 
   const [routeThickness, setRouteThickness] = useState<number>(5)
-  const [options, setOptions] = useState<Array<string>>([])
+  const [options, setOptions] = useState<Option[]>([]);
   const [selectedCoordinates, setSelectedCoordinates] = useState<[number, number] | null>(null)
-  console.log(mapInstance, geocoderRef)
+  //console.log(mapInstance, geocoderRef)
   const access_token : string  = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN!
+
   useEffect(() => {
+
+    const addMarker = (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
+      addMarkerBasedOnCoordinates(event.lngLat.lng, event.lngLat.lat);
+    };
+
     if (mapContainerRef.current) {
       initializeMap(
        { mapContainerRef,
@@ -37,7 +49,7 @@ const Home: NextPage = () => {
       }
         )
     }
-  }, [])
+  },[access_token])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -57,24 +69,22 @@ const Home: NextPage = () => {
     setSearchValue('')
   }
 
-  const handleRoute = () =>{
-    if (waypoints.current.length >= 2) {
-      getRoute({mapInstance, waypoints, setRouteLength, access_token, routeColor, routeThickness})
+  const handleRoute = async () => {
+    try {
+      if (waypoints.current.length >= 2) {
+        await getRoute({ mapInstance, waypoints, setRouteLength, access_token, routeColor, routeThickness });
+      }
+    } catch (error) {
+      console.error("Error in handleRoute:", error);
     }
-  }
-
-  const addMarker = (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
-    //console.log(event.lngLat.lng, event.lngLat.lat)
-    addMarkerBasedOnCoordinates(event.lngLat.lng, event.lngLat.lat)
-  }
-
+  };
+  
   const handleAddMarkerClick = () => {
     if (selectedCoordinates) {
         addMarkerBasedOnCoordinates(selectedCoordinates[0], selectedCoordinates[1])
         setSelectedCoordinates(null)
     }
   }
-
 
 const addMarkerBasedOnCoordinates = (lng: number, lat: number) => {
   if (mapInstance.current && waypoints.current.length < 3) { 
@@ -104,7 +114,7 @@ return (
                 freeSolo
                 fullWidth
                 options={options}
-                getOptionLabel={(option) => option.label}
+                getOptionLabel={(option: string | Option) => typeof option === "string" ? option : option.label}
                 renderInput={(params) => (
                     <TextField 
                         {...params} 
@@ -117,9 +127,9 @@ return (
                     />
                 )}
 
-                onChange={(event, newValue) => {
-                  if (newValue && newValue.coordinates){
-                      setSelectedCoordinates(newValue.coordinates)
+                onChange={(event, newValue: string | Option | null) => {
+                  if (typeof newValue === 'object' && newValue && newValue.coordinates) {
+                    setSelectedCoordinates(newValue.coordinates)
                   } else {
                       setSelectedCoordinates(null)
                   }
