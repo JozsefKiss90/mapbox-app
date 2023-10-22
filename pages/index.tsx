@@ -68,6 +68,7 @@ const sidebarPorps = {
   markers,
   setMarkers,
   routeProfile,
+  setRouteProfile,
   setRouteDuration,
   routeduration
 }
