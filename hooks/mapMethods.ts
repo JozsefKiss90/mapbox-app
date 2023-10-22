@@ -32,12 +32,23 @@ export const handleRoute = async (
     setRouteLength: React.Dispatch<React.SetStateAction<string>>, 
     access_token: string,
     routeColor: string, 
-    routeThickness: number
+    routeThickness: number,
+    routeProfile: string,
+    setRouteDuration: Dispatch<SetStateAction<string>>
     ) => {
         e.preventDefault()    
         try {
             if (waypoints.current.length >= 2) {
-                await getRoute({ mapInstance, waypoints, setRouteLength, access_token, routeColor, routeThickness });
+                await getRoute({ 
+                    mapInstance, 
+                    waypoints, 
+                    setRouteLength, 
+                    access_token, 
+                    routeColor, 
+                    routeThickness, 
+                    routeProfile,
+                    setRouteDuration 
+                });
             }
         } catch (error) {
             console.error("Error in handleRoute:", error);
@@ -76,7 +87,7 @@ export const addMarkerBasedOnCoordinates = (
             setMarkers((prevMarkers : any)=>[...prevMarkers, marker])
             marker.getElement().style.zIndex = "10";
             waypoints.current.push([lng, lat]);
-            console.log(marker)
+            console.log(waypoints)
 
         } else {
             alert(`Maximum ${waypoints.current.length} markers can be added!`);
@@ -89,7 +100,10 @@ export const clearMarkers = (
     setSelectedCoordinates: Dispatch<SetStateAction<[number, number] | null>>,
     setSearchValue:any,
     setMarkers: Dispatch<SetStateAction<[] | [mapboxgl.Marker]>>,
-    markers:[mapboxgl.Marker]
+    markers:[mapboxgl.Marker],
+    mapInstance:any,
+    setRouteLength:any,
+    setRouteDuration:any
     ) => {
         e.preventDefault()
         waypoints.current?.forEach((waypoint:number[]) => waypoint.pop())
@@ -97,7 +111,13 @@ export const clearMarkers = (
         setMarkers([])
         waypoints.current = []
         setSelectedCoordinates(null)
+        setRouteDuration('')
+        setRouteLength('')
         setSearchValue('')
-        
-        //console.log(markersRef)
+        if (mapInstance.current!.getLayer('route')) {
+            mapInstance.current!.removeLayer('route');
+        }
+        if (mapInstance.current!.getSource('route')) {
+            mapInstance.current!.removeSource('route');
+        }
     }

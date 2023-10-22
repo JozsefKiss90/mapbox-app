@@ -7,29 +7,33 @@ interface GetRouteProps {
     setRouteLength: (length: string) => void
     access_token: string | undefined
     routeColor: string
-    routeThickness: number
+    routeThickness: number,
+    routeProfile: string,
+    setRouteDuration:(length: string) => void
 }
 
 const getRoute = async ({
-    mapInstance,
-    waypoints,
-    setRouteLength,
-    access_token,
-    routeColor,
-    routeThickness,
+    mapInstance, 
+    waypoints, 
+    setRouteLength, 
+    access_token, 
+    routeColor, 
+    routeThickness, 
+    routeProfile,
+    setRouteDuration 
 }: GetRouteProps): Promise<void> => {
     if (waypoints!.current!.length < 2) { 
       return
     }
     const waypointStr =  waypoints.current!.map((waypoint : number[])=> `${waypoint[0]},${waypoint[1]}`).join(';')
-
     const query = await fetch(
-      `https://api.mapbox.com/directions/v5/mapbox/cycling/${waypointStr}?steps=true&geometries=geojson&access_token=${access_token}`,
+      `https://api.mapbox.com/directions/v5/mapbox/${routeProfile}/${waypointStr}?steps=true&geometries=geojson&access_token=${access_token}`,
       { method: 'GET' }
-    )
-    
+      )
+      
       const json = await query.json()
       const data = json.routes[0]
+      console.log(data)
       const geojson: Feature<LineString> = {
         type: 'Feature',
         properties: {},
@@ -39,31 +43,35 @@ const getRoute = async ({
         }
     }
       const distanceInKm = (data.distance / 1000).toFixed(2)
-      setRouteLength(`Route Length: ${distanceInKm} km`)
- 
+      const routeDurationInMins = (data.duration / 60).toFixed(2)
+      setRouteLength(`Route Length: ${distanceInKm} km.`)
+      setRouteDuration(`Route duration: ${routeDurationInMins} min.`)
       if (mapInstance.current!.getSource('route')) {
         const source = mapInstance.current!.getSource('route')
-      if ('setData' in source) {
+      if ('setData' in source && !mapInstance.current!.getSource('route')) {
           source.setData(geojson)
+          console.log("SOURCE: " + source)
       }
 
       } else {
-        mapInstance.current!.addLayer({
-          id: 'route',
-          type: 'line',
-          source: {
-            type: 'geojson',
-            data: geojson
-          },
-          layout: {
-            'line-join': 'round',
-            'line-cap': 'round'
-          },
-          paint: {
-            'line-color': routeColor,
-            'line-width': routeThickness
-          }
-        })
+        mapInstance.current!.addSource('route', {
+          type: 'geojson',
+          data: geojson
+          });
+          mapInstance.current!.addLayer({
+              id: 'route',
+              type: 'line',
+              source: 'route',
+              layout: {
+                  'line-join': 'round',
+                  'line-cap': 'round'
+              },
+              paint: {
+                  'line-color': routeColor,
+                  'line-width': routeThickness
+              }
+          });
+        console.log('layer added')
       } 
     }
 

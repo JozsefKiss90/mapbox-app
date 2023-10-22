@@ -17,6 +17,7 @@ const Home: NextPage = () => {
   const mapInstance = useRef<mapboxgl.Map | null>(null)
   const [markers, setMarkers] = useState<[mapboxgl.Marker] | []>([])
   const [routeLength, setRouteLength] = useState<string>('')
+  const [routeduration, setRouteDuration] = useState<string>('')
   const waypoints = useRef<Array<number[]>>([])
   const geocoderRef = useRef<MapboxGeocoder | null>(null)
   const [searchValue, setSearchValue] = useState<string>('')
@@ -25,6 +26,7 @@ const Home: NextPage = () => {
   const [options, setOptions] = useState<Option[]>([]);
   const [selectedCoordinates, setSelectedCoordinates] = useState<[number, number] | null>(null)
   const access_token : string  = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN!
+  const [routeProfile, setRouteProfile] = useState<string>("walking")
 
   const addMarker = (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
     addMarkerBasedOnCoordinates(event.lngLat.lng, event.lngLat.lat, mapInstance, waypoints, setMarkers);
@@ -64,7 +66,10 @@ const sidebarPorps = {
   setRouteThickness,
   routeLength,
   markers,
-  setMarkers
+  setMarkers,
+  routeProfile,
+  setRouteDuration,
+  routeduration
 }
 
 return (

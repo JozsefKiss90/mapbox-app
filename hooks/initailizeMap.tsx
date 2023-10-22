@@ -60,7 +60,7 @@ interface InitializeMapProps {
       coordinates: feature.geometry.coordinates,
     }));
     setOptions(options);
-
+   
     if (mapInstance?.current) {
       const currentZoom = mapInstance.current.getZoom();
       mapInstance.current.flyTo({

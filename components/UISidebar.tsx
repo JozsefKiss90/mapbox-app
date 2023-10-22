@@ -26,7 +26,10 @@ const UISidebar = ({props}:any) => {
         setRouteThickness,
         routeLength,
         markers,
-        setMarkers
+        setMarkers,
+        routeProfile,
+        setRouteDuration,
+        routeduration
         } = props
     return(
     <Drawer
@@ -97,6 +100,8 @@ const UISidebar = ({props}:any) => {
             access_token,
             routeColor,
             routeThickness,
+            routeProfile,
+            setRouteDuration
             )}
           style={{ marginBottom: '16px' }}
       >
@@ -114,7 +119,10 @@ const UISidebar = ({props}:any) => {
                 setSelectedCoordinates,
                 setSearchValue,
                 setMarkers,
-                markers
+                markers,
+                mapInstance,
+                setRouteLength,
+                setRouteDuration
             )}
             style={{ marginBottom: '16px' }}
             >
@@ -145,6 +153,9 @@ const UISidebar = ({props}:any) => {
       />
       <Typography color="textSecondary">
           {routeLength}
+      </Typography>
+      <Typography color="textSecondary">
+          {routeduration}
       </Typography>
     </Box>
 </Drawer>
