@@ -1,12 +1,11 @@
 import type { NextPage } from 'next'
-import { Dispatch, MutableRefObject, SetStateAction, useEffect, useRef, useState } from 'react'
+import {useEffect, useRef, useState } from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import getRoute from '../hooks/getRoute'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import initializeMap from '../hooks/initailizeMap'
 import UISidebar from '../components/UISidebar'
-import { handleInputChange, handleSubmit, handleRoute, handleAddMarkerClick, addMarkerBasedOnCoordinates } from '../hooks/mapMethods';
+import {addMarkerBasedOnCoordinates} from '../hooks/mapMethods';
 
 interface Option {
   label: string;
@@ -16,7 +15,7 @@ interface Option {
 const Home: NextPage = () => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null)
   const mapInstance = useRef<mapboxgl.Map | null>(null)
-  const markersRef = useRef<Array<mapboxgl.Marker >>([])
+  const [markers, setMarkers] = useState<[mapboxgl.Marker] | []>([])
   const [routeLength, setRouteLength] = useState<string>('')
   const waypoints = useRef<Array<number[]>>([])
   const geocoderRef = useRef<MapboxGeocoder | null>(null)
@@ -28,7 +27,7 @@ const Home: NextPage = () => {
   const access_token : string  = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN!
 
   const addMarker = (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
-    addMarkerBasedOnCoordinates(event.lngLat.lng, event.lngLat.lat, mapInstance, waypoints);
+    addMarkerBasedOnCoordinates(event.lngLat.lng, event.lngLat.lat, mapInstance, waypoints, setMarkers);
   };
   useEffect(() => {
 
@@ -39,7 +38,7 @@ const Home: NextPage = () => {
         geocoderRef,  
         addMarker,
         setOptions,
-        markersRef,
+        setMarkers,
         waypoints,
         access_token
       }
@@ -49,17 +48,12 @@ const Home: NextPage = () => {
 
 
 const sidebarPorps = {
-  handleSubmit, 
   options, 
   setSearchValue,
   geocoderRef,
   searchValue, 
-  handleInputChange, 
   setSelectedCoordinates, 
   selectedCoordinates,
-  addMarkerBasedOnCoordinates,
-  handleAddMarkerClick,
-  handleRoute, 
   mapInstance, 
   waypoints,
   access_token,
@@ -68,7 +62,9 @@ const sidebarPorps = {
   setRouteLength,
   routeThickness,
   setRouteThickness,
-  routeLength
+  routeLength,
+  markers,
+  setMarkers
 }
 
 return (

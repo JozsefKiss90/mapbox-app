@@ -13,11 +13,11 @@ interface InitializeMapProps {
     geocoderRef: React.MutableRefObject<MapboxGeocoder | null>
     addMarker: (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => void
     setOptions: Dispatch<SetStateAction<Option[]>>
-    markersRef: React.RefObject<mapboxgl.Marker[]>
+    //markersRef: React.RefObject<mapboxgl.Marker[]>
+    setMarkers: any
     waypoints: React.RefObject<number[][]>
     access_token: string
   }
-  
 
   const initializeMap = ({
     mapContainerRef,
@@ -25,7 +25,7 @@ interface InitializeMapProps {
     geocoderRef,
     addMarker,
     setOptions,
-    markersRef,
+    setMarkers,
     waypoints,
     access_token,
 }: InitializeMapProps): (() => void) => {

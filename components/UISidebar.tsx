@@ -1,6 +1,7 @@
 import { Button, Drawer, Typography, TextField, InputLabel, Input, Slider, Box } from '@mui/material'
 import Autocomplete from '@mui/lab/Autocomplete'
-
+import { clearMarkers, handleInputChange, handleSubmit, handleRoute, handleAddMarkerClick, addMarkerBasedOnCoordinates 
+} from '../hooks/mapMethods';
 interface Option {
     label: string;
     coordinates: [number, number];
@@ -9,17 +10,12 @@ interface Option {
 const UISidebar = ({props}:any) => {
 
     const {
-        handleSubmit, 
         options, 
         setSearchValue,
         geocoderRef,
         searchValue, 
-        handleInputChange, 
         setSelectedCoordinates, 
         selectedCoordinates,
-        addMarkerBasedOnCoordinates,
-        handleAddMarkerClick,
-        handleRoute, 
         mapInstance, 
         waypoints,
         access_token,
@@ -28,7 +24,9 @@ const UISidebar = ({props}:any) => {
         setRouteLength,
         routeThickness,
         setRouteThickness,
-        routeLength
+        routeLength,
+        markers,
+        setMarkers
         } = props
     return(
     <Drawer
@@ -45,6 +43,8 @@ const UISidebar = ({props}:any) => {
 
       <form onSubmit={(e) =>handleSubmit(e, searchValue, geocoderRef)}>
       <Autocomplete
+          value={searchValue}
+          onInputChange={(event, newValue) => setSearchValue(newValue)}
           freeSolo
           fullWidth
           options={options}
@@ -55,7 +55,6 @@ const UISidebar = ({props}:any) => {
                   fullWidth 
                   label="Search" 
                   variant="outlined" 
-                  value={searchValue}
                   onChange={(e) => handleInputChange(e, setSearchValue, geocoderRef)}
                   style={{ marginBottom: '16px' }}
               />
@@ -78,7 +77,8 @@ const UISidebar = ({props}:any) => {
                 selectedCoordinates,
                 mapInstance,
                 waypoints,
-                addMarkerBasedOnCoordinates
+                addMarkerBasedOnCoordinates,
+                setMarkers,
             )}
             style={{ marginBottom: '16px' }}
             >
@@ -102,6 +102,24 @@ const UISidebar = ({props}:any) => {
       >
           Plan Route
       </Button>
+
+      <Button 
+            variant="contained" 
+            color="primary" 
+            type="submit"
+            disabled={markers.length===0}
+            onClick={(e)=> clearMarkers(
+                e,
+                waypoints,
+                setSelectedCoordinates,
+                setSearchValue,
+                setMarkers,
+                markers
+            )}
+            style={{ marginBottom: '16px' }}
+            >
+            Clear markers
+        </Button>
 
       <InputLabel>Route Color</InputLabel>
       <Input 
