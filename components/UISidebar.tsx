@@ -125,7 +125,7 @@ import {
         <RouteProfile profileProps={{
                     routeProfile,
                     setRouteProfile
-                    }}
+            }}
         />
       <RouteDesign designProps = {
         {
