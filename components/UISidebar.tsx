@@ -1,38 +1,78 @@
 import { Button, Drawer, Typography, TextField, InputLabel, Input, Slider, Box, ToggleButtonGroup, ToggleButton } from '@mui/material'
 import Autocomplete from '@mui/lab/Autocomplete'
 import { clearMarkers, handleInputChange, handleSubmit, handleRoute, handleAddMarkerClick, addMarkerBasedOnCoordinates 
-} from '../hooks/mapMethods';
+} from '../hooks/mapMethods'
+import { useCallback, useContext, useEffect } from 'react'
+import { RouteContext } from '../context/RouteProvider'
+import SearchComponent from './SearchComponent'
+
 interface Option {
-    label: string;
-    coordinates: [number, number];
+    label: string
+    coordinates: [number, number]
   }
-  
 
 const UISidebar = ({props}:any) => {
 
+const {
+    options, 
+    setSearchValue,
+    geocoderRef,
+    searchValue, 
+    setSelectedCoordinates, 
+    selectedCoordinates,
+    mapInstance, 
+    waypoints,
+    access_token,
+    setRouteLength,
+    routeLength,
+    markers,
+    setMarkers,
+    setRouteDuration,
+    routeduration
+    } = props
+
     const {
-        options, 
-        setSearchValue,
-        geocoderRef,
-        searchValue, 
-        setSelectedCoordinates, 
-        selectedCoordinates,
-        mapInstance, 
-        waypoints,
-        access_token,
-        routeColor,
-        setRouteColor,
-        setRouteLength,
-        routeThickness,
-        setRouteThickness,
-        routeLength,
-        markers,
-        setMarkers,
-        routeProfile,
-        setRouteProfile,
-        setRouteDuration,
-        routeduration
-        } = props
+        routeColor, 
+        setRouteColor, 
+        routeThickness, 
+        setRouteThickness, 
+        routeProfile, 
+        setRouteProfile
+      } = useContext(RouteContext) as any;
+    
+
+    useEffect(() => {
+        if (mapInstance.current && mapInstance.current.getLayer('route')) {
+            mapInstance.current.setPaintProperty('route', 'line-color', routeColor);
+            mapInstance.current.setPaintProperty('route', 'line-width', routeThickness);
+        }
+    }, [routeColor, routeThickness, mapInstance]);
+    
+    const handleRouteCallback = useCallback(
+        () => {
+          handleRoute(
+            null,
+            mapInstance,
+            waypoints,
+            setRouteLength,
+            access_token,
+            routeColor,
+            routeThickness,
+            routeProfile,
+            setRouteDuration
+          );
+        },
+        [mapInstance, waypoints, setRouteLength, access_token, routeColor, routeThickness, routeProfile, setRouteDuration]
+      );
+      
+      useEffect(() => {
+        if (mapInstance.current && mapInstance.current.getLayer('route')) {
+          handleRouteCallback();
+        }
+      }, [mapInstance, routeProfile, handleRouteCallback]);
+      
+    
+  
     return(
     <Drawer
     variant="permanent"
@@ -45,49 +85,19 @@ const UISidebar = ({props}:any) => {
             <Typography variant="h6" gutterBottom>
                 Map Settings
             </Typography>
-            <form onSubmit={(e) =>handleSubmit(e, searchValue, geocoderRef)}>
-                <Autocomplete
-                    value={searchValue}
-                    onInputChange={(event, newValue) => setSearchValue(newValue)}
-                    freeSolo
-                    fullWidth
-                    options={options}
-                    getOptionLabel={(option: string | Option) => typeof option === "string" ? option : option.label}
-                    renderInput={(params) => (
-                        <TextField 
-                            {...params} 
-                            fullWidth 
-                            label="Search" 
-                            variant="outlined" 
-                            onChange={(e) => handleInputChange(e, setSearchValue, geocoderRef)}
-                            style={{ marginBottom: '16px' }}
-                        />
-                    )}
-
-                    onChange={(event, newValue: string | Option | null) => {
-                        if (typeof newValue === 'object' && newValue && newValue.coordinates) {
-                        setSelectedCoordinates(newValue.coordinates)
-                        } else {
-                            setSelectedCoordinates(null)
-                        }
-                    }} 
-                    />
-                <Button 
-                        variant="contained" 
-                        type="submit"
-                        onClick={e => handleAddMarkerClick(
-                            e, 
-                            selectedCoordinates,
-                            mapInstance,
-                            waypoints,
-                            addMarkerBasedOnCoordinates,
-                            setMarkers,
-                        )}
-                        style={{ marginBottom: '16px', backgroundColor: '#02d12c' }}
-                    >
-                        Add Marker
-                </Button>
-            </form>
+            <SearchComponent searchProps = {{ 
+                searchValue, 
+                setSearchValue, 
+                options, 
+                geocoderRef, 
+                handleSubmit, 
+                setSelectedCoordinates,
+                selectedCoordinates, 
+                waypoints, 
+                mapInstance,
+                setMarkers
+                }}
+            />
             <Button 
                 variant="contained" 
                 color="secondary" 
@@ -138,8 +148,8 @@ const UISidebar = ({props}:any) => {
                 style={{ marginBottom: '16px', display: 'flex', justifyContent: 'center' }}
             >
                 <ToggleButton 
-                    value="cycling" 
-                    aria-label="cycling" 
+                    value="walking" 
+                    aria-label="walking" 
                     style={{
                         borderRadius: '15px', 
                         width: '70px', 
@@ -152,8 +162,8 @@ const UISidebar = ({props}:any) => {
                     Walking
                 </ToggleButton>
                 <ToggleButton 
-                    value="walking" 
-                    aria-label="walking" 
+                    value="cycling" 
+                    aria-label="cycling" 
                     style={{
                         borderRadius: '15px', 
                         width: '70px', 

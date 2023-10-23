@@ -48,7 +48,7 @@ const getRoute = async ({
       setRouteDuration(`Route duration: ${routeDurationInMins} min.`)
       if (mapInstance.current!.getSource('route')) {
         const source = mapInstance.current!.getSource('route')
-      if ('setData' in source && !mapInstance.current!.getSource('route')) {
+      if ('setData' in source) {
           source.setData(geojson)
           console.log("SOURCE: " + source)
       }
