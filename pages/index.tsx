@@ -18,7 +18,7 @@ const Home: NextPage = () => {
   const mapInstance = useRef<mapboxgl.Map | null>(null)
   const [markers, setMarkers] = useState<[mapboxgl.Marker] | []>([])
   const [routeLength, setRouteLength] = useState<string>('')
-  const [routeduration, setRouteDuration] = useState<string>('')
+  const [routeDuration, setRouteDuration] = useState<string>('')
   const waypoints = useRef<Array<number[]>>([])
   const geocoderRef = useRef<MapboxGeocoder | null>(null)
   const [searchValue, setSearchValue] = useState<string>('')
@@ -62,7 +62,7 @@ const sidebarPorps = {
   markers,
   setMarkers,
   setRouteDuration,
-  routeduration
+  routeDuration
 }
 
 return (

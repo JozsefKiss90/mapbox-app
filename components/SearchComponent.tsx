@@ -1,4 +1,4 @@
-import { Autocomplete, TextField, Button } from "@mui/material";
+import { Autocomplete, TextField, Button, Typography } from "@mui/material";
 import { handleInputChange, handleAddMarkerClick, addMarkerBasedOnCoordinates } from "../hooks/mapMethods";
 
 interface Option {
@@ -22,6 +22,10 @@ const SearchComponent = ({searchProps}:any) => {
         } :any = searchProps    
 
     return (
+        <>
+        <Typography variant="h6" gutterBottom>
+            Map Settings
+        </Typography>
         <form onSubmit={(e) =>handleSubmit(e, searchValue, geocoderRef)}>
         <Autocomplete
             value={searchValue}
@@ -49,22 +53,23 @@ const SearchComponent = ({searchProps}:any) => {
                 }
             }} 
             />
-        <Button 
-                variant="contained" 
-                type="submit"
-                onClick={e => handleAddMarkerClick(
-                    e, 
-                    selectedCoordinates,
-                    mapInstance,
-                    waypoints,
-                    addMarkerBasedOnCoordinates,
-                    setMarkers,
-                )}
-                style={{ marginBottom: '16px', backgroundColor: '#02d12c' }}
-            >
-                Add Marker
-        </Button>
-    </form>
+            <Button 
+                    variant="contained" 
+                    type="submit"
+                    onClick={e => handleAddMarkerClick(
+                        e, 
+                        selectedCoordinates,
+                        mapInstance,
+                        waypoints,
+                        addMarkerBasedOnCoordinates,
+                        setMarkers,
+                    )}
+                    style={{ marginBottom: '16px', backgroundColor: '#02d12c' }}
+                >
+                    Add Marker
+            </Button>
+        </form>
+        </>
     );
 }
 
