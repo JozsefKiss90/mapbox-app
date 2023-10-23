@@ -1,7 +1,5 @@
-import { Button, Drawer, Typography, TextField, InputLabel, Input, Slider, Box, ToggleButtonGroup, ToggleButton } from '@mui/material'
-import Autocomplete from '@mui/lab/Autocomplete'
-import { clearMarkers, handleInputChange, handleSubmit, handleRoute, handleAddMarkerClick, addMarkerBasedOnCoordinates 
-} from '../hooks/mapMethods'
+import {Drawer, Box} from '@mui/material'
+import {handleSubmit, handleRoute} from '../hooks/mapMethods'
 import { useCallback, useContext, useEffect } from 'react'
 import { RouteContext } from '../context/RouteProvider'
 import SearchComponent from './SearchComponent'
@@ -9,31 +7,26 @@ import PlanRoute from './PlanRoute'
 import ClearMarkers from './ClearMarkers'
 import RouteProfile from './RouteProfile'
 import RouteDesign from './RouteDesign'
+import { UISidebarProps } from '../types/types'
 
-interface Option {
-    label: string
-    coordinates: [number, number]
-  }
-
-const UISidebar = ({props}:any) => {
-
-const {
-    options, 
-    setSearchValue,
-    geocoderRef,
-    searchValue, 
-    setSelectedCoordinates, 
-    selectedCoordinates,
-    mapInstance, 
-    waypoints,
-    access_token,
-    setRouteLength,
-    routeLength,
-    markers,
-    setMarkers,
-    setRouteDuration,
-    routeDuration
-    } = props
+const UISidebar: React.FC<UISidebarProps> = (sidebarProps) => {
+    const {
+        options, 
+        setSearchValue,
+        geocoderRef,
+        searchValue, 
+        setSelectedCoordinates, 
+        selectedCoordinates,
+        mapInstance, 
+        waypoints,
+        access_token,
+        setRouteLength,
+        routeLength,
+        markers,
+        setMarkers,
+        setRouteDuration,
+        routeDuration
+        } = sidebarProps
 
     const {
         routeColor, 
@@ -69,12 +62,11 @@ const {
         [mapInstance, waypoints, setRouteLength, access_token, routeColor, routeThickness, routeProfile, setRouteDuration]
       );
       
-      useEffect(() => {
-        if (mapInstance.current && mapInstance.current.getLayer('route')) {
-          handleRouteCallback();
-        }
-      }, [mapInstance, routeProfile, handleRouteCallback]);
-      
+    useEffect(() => {
+    if (mapInstance.current && mapInstance.current.getLayer('route')) {
+        handleRouteCallback();
+    }
+    }, [mapInstance, routeProfile, handleRouteCallback]);
     
   
     return(
@@ -92,7 +84,7 @@ const {
                     options, 
                     geocoderRef, 
                     handleSubmit, 
-                    setSelectedCoordinates,
+                    setSelectedCoordinates, 
                     selectedCoordinates, 
                     waypoints, 
                     mapInstance,

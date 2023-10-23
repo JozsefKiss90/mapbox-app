@@ -1,7 +1,6 @@
 import { Typography, Input, Slider } from "@mui/material";
-
-const RouteDesign = ({designProps}:any) => {
-    
+import { DesignProps } from "../types/types";
+const RouteDesign = ({designProps}: DesignProps) => {
     const {
         routeColor,
         setRouteColor,
@@ -14,7 +13,7 @@ const RouteDesign = ({designProps}:any) => {
     return (
         <>
             <Typography gutterBottom>
-                Route color:
+                Route color
             </Typography>
             <Input 
                 type="color" 

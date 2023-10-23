@@ -1,7 +1,8 @@
 import { Button } from "@mui/material";
 import { handleRoute } from "../hooks/mapMethods";
+import { RouteProps } from "../types/types";
+const PlanRoute = ({ routeProps } : RouteProps) => {
 
-const PlanRoute = ({ routeProps } : any) => {
     const {
         mapInstance,
         waypoints,
@@ -12,6 +13,7 @@ const PlanRoute = ({ routeProps } : any) => {
         routeProfile,
         setRouteDuration
     } = routeProps
+    
     return (
         <Button 
             variant="contained" 

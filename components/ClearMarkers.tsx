@@ -1,7 +1,8 @@
 import { Button } from "@mui/material";
 import { clearMarkers } from "../hooks/mapMethods";
+import { ClearProps } from "../types/types";
 
-const ClearMarkers = ({ clearProps } : any) => {
+const ClearMarkers = ({ clearProps } : ClearProps) => {
     const {
         waypoints,
         setSelectedCoordinates,

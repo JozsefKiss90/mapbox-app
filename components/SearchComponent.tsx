@@ -1,12 +1,8 @@
 import { Autocomplete, TextField, Button, Typography } from "@mui/material";
 import { handleInputChange, handleAddMarkerClick, addMarkerBasedOnCoordinates } from "../hooks/mapMethods";
+import { SearchProps, Option } from "../types/types"
 
-interface Option {
-    label: string
-    coordinates: [number, number]
-  }
-
-const SearchComponent = ({searchProps}:any) => {
+const SearchComponent = ({searchProps} : SearchProps) => {
 
     const { 
         searchValue, 
@@ -19,7 +15,7 @@ const SearchComponent = ({searchProps}:any) => {
         waypoints, 
         mapInstance,
         setMarkers
-        } :any = searchProps    
+        } = searchProps    
 
     return (
         <>

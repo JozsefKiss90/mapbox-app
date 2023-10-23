@@ -6,7 +6,7 @@ export const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, 
     setSearchValue: React.Dispatch<React.SetStateAction<string>>, 
     geocoderRef: React.MutableRefObject<MapboxGeocoder | null>
-    ) => {
+    ) => { 
         e.preventDefault()
         const inputValue = e.target.value
         setSearchValue(inputValue)
@@ -14,6 +14,7 @@ export const handleInputChange = (
             geocoderRef.current.setInput(inputValue)
         }
     }   
+
 export const handleSubmit = (
     e: React.FormEvent<HTMLFormElement>, 
     searchValue: string, 
@@ -25,37 +26,36 @@ export const handleSubmit = (
             }
     }
 
-    export const handleRoute = async (
-        e: any = null,    
-        mapInstance: React.MutableRefObject<mapboxgl.Map | null>,
-        waypoints: React.MutableRefObject<Array<number[]>>, 
-        setRouteLength: React.Dispatch<React.SetStateAction<string>>, 
-        access_token: string,
-        routeColor: string, 
-        routeThickness: number,
-        routeProfile: string,
-        setRouteDuration: Dispatch<SetStateAction<string>>
-    ) => {
-        if (e) e.preventDefault() 
-        try {
-            console.log(waypoints)
-            if (waypoints.current.length >= 2) {
-                await getRoute({ 
-                    mapInstance, 
-                    waypoints, 
-                    setRouteLength, 
-                    access_token, 
-                    routeColor, 
-                    routeThickness, 
-                    routeProfile,
-                    setRouteDuration 
-                })
-            }
-        } catch (error) {
-            console.error("Error in handleRoute:", error)
+export const handleRoute = async (
+    e: any = null,    
+    mapInstance: React.MutableRefObject<mapboxgl.Map | null>,
+    waypoints: React.MutableRefObject<Array<number[]>>, 
+    setRouteLength: React.Dispatch<React.SetStateAction<string>>, 
+    access_token: string,
+    routeColor: string, 
+    routeThickness: number,
+    routeProfile: string,
+    setRouteDuration: Dispatch<SetStateAction<string>>
+) => {
+    if (e) e.preventDefault() 
+    try {
+        console.log(waypoints)
+        if (waypoints.current.length >= 2) {
+            await getRoute({ 
+                mapInstance, 
+                waypoints, 
+                setRouteLength, 
+                access_token, 
+                routeColor, 
+                routeThickness, 
+                routeProfile,
+                setRouteDuration 
+            })
         }
+    } catch (error) {
+        console.error("Error in handleRoute:", error)
     }
-    
+}
 
 export const handleAddMarkerClick = (    
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -102,7 +102,7 @@ export const clearMarkers = (
     setSelectedCoordinates: Dispatch<SetStateAction<[number, number] | null>>,
     setSearchValue: React.Dispatch<React.SetStateAction<string>>,
     setMarkers: Dispatch<SetStateAction<[] | [mapboxgl.Marker]>>,
-    markers:[mapboxgl.Marker],
+    markers:  [mapboxgl.Marker] | [],
     mapInstance:React.MutableRefObject<mapboxgl.Map | null>,
     setRouteLength: Dispatch<SetStateAction<string>>,
     setRouteDuration: Dispatch<SetStateAction<string>>,

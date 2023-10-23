@@ -1,5 +1,4 @@
 import React, { createContext, useState } from "react"
-
 export const RouteContext = createContext({})
 
 export const RouteProvider = ({ children } : any) => {

@@ -1,7 +1,6 @@
 import { Typography, ToggleButtonGroup, ToggleButton } from "@mui/material";
-
-const RouteProfile = ({profileProps}:any) => {
-
+import { ProfileProps } from "../types/types";
+const RouteProfile = ({profileProps}:ProfileProps) => {
     const {
         routeProfile,
         setRouteProfile
