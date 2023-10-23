@@ -22,4 +22,4 @@ ENV NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=${NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
 RUN npm run build
 
 # Specify the command to run when the container starts
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
