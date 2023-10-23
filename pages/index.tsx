@@ -1,5 +1,8 @@
 import type { NextPage } from 'next'
-import {useEffect, useRef, useState } from 'react'
+import {
+  useEffect, 
+  useRef, 
+  useState } from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
@@ -7,6 +10,7 @@ import initializeMap from '../hooks/initailizeMap'
 import UISidebar from '../components/UISidebar'
 import {addMarkerBasedOnCoordinates} from '../hooks/mapMethods';
 import { UISidebarProps } from '../types/types'
+import styles from '../styles/Mapbox.module.css'
 
 interface Option {
   label: string;
@@ -72,11 +76,7 @@ const Home: NextPage = () => {
       <UISidebar {...sidebarProps} />
       <div 
           ref={mapContainerRef} 
-          style={{
-              flexGrow: 1,
-              position: 'relative',
-              height: '100vh'
-          }}
+          className={styles.container}
       />
     </div>
   );

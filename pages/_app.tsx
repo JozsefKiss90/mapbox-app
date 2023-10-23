@@ -5,8 +5,8 @@ import type { AppProps } from 'next/app'
 function MyApp({ Component, pageProps }: AppProps) {
 
   return <RouteProvider>
-    <Component {...pageProps} />  
-  </RouteProvider>
+          <Component {...pageProps} />  
+         </RouteProvider>
 }
 
 export default MyApp

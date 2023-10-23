@@ -1,5 +1,6 @@
 import { Typography, Input, Slider } from "@mui/material";
 import { DesignProps } from "../types/types";
+
 const RouteDesign = ({designProps}: DesignProps) => {
     const {
         routeColor,

@@ -1,9 +1,13 @@
-import { Dispatch, SetStateAction, MutableRefObject } from "react";
+import { Dispatch, SetStateAction, MutableRefObject, ReactNode } from "react";
 
 export interface Option {
     label: string;
     coordinates: [number, number];
   }  
+
+export interface RouteProviderProps {
+    children: ReactNode;
+}
 
 export interface UISidebarProps {
     options: Option[];
@@ -42,8 +46,8 @@ export interface RouteProps {
     routeProps: {
         mapInstance: MutableRefObject<mapboxgl.Map | null>
         waypoints: MutableRefObject<number[][]>
-        setRouteLength: Dispatch<SetStateAction<string>>
         access_token:string,
+        setRouteLength: Dispatch<SetStateAction<string>>
         routeColor:string,
         routeThickness:number,
         routeProfile:string,

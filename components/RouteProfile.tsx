@@ -1,5 +1,7 @@
 import { Typography, ToggleButtonGroup, ToggleButton } from "@mui/material";
 import { ProfileProps } from "../types/types";
+import styles from '../styles/Sidebar.module.css'
+
 const RouteProfile = ({profileProps}:ProfileProps) => {
     const {
         routeProfile,
@@ -17,48 +19,27 @@ const RouteProfile = ({profileProps}:ProfileProps) => {
                 onChange={(event, newProfile) => setRouteProfile(newProfile)}
                 aria-label="route profile"
                 size="small"
-                style={{ marginBottom: '16px', display: 'flex', justifyContent: 'center' }}
+                className={styles.toggleButtonGroup}
             >
                 <ToggleButton 
                     value="walking" 
                     aria-label="walking" 
-                    style={{
-                        borderRadius: '15px', 
-                        width: '70px', 
-                        padding: '5px 15px', 
-                        fontSize: '0.9rem', 
-                        border: '1px solid #586375', 
-                        textTransform: 'none', 
-                        margin: '0 5px'
-                    }}>
+                    className={styles.ToggleButton}
+                >
                     Walking
                 </ToggleButton>
                 <ToggleButton 
                     value="cycling" 
                     aria-label="cycling" 
-                    style={{
-                        borderRadius: '15px', 
-                        width: '70px', 
-                        padding: '5px 15px', 
-                        fontSize: '0.9rem', 
-                        border: '1px solid #586375', 
-                        textTransform: 'none', 
-                        margin: '0 5px'
-                    }}>
+                    className={styles.ToggleButton}
+                >
                     Cycling
                 </ToggleButton>
                 <ToggleButton 
                     value="driving" 
                     aria-label="driving" 
-                    style={{
-                        borderRadius: '15px', 
-                        width: '70px', 
-                        padding: '5px 15px', 
-                        fontSize: '0.9rem', 
-                        border: '1px solid #586375', 
-                        textTransform: 'none', 
-                        margin: '0 5px'                    
-                    }}>
+                    className={styles.ToggleButton}
+                >
                     Driving
                 </ToggleButton>
             </ToggleButtonGroup>

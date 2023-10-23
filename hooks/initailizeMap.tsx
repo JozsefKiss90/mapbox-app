@@ -13,7 +13,6 @@ interface InitializeMapProps {
     geocoderRef: React.MutableRefObject<MapboxGeocoder | null>
     addMarker: (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => void
     setOptions: Dispatch<SetStateAction<Option[]>>
-    //markersRef: React.RefObject<mapboxgl.Marker[]>
     setMarkers: any
     waypoints: React.RefObject<number[][]>
     access_token: string
@@ -77,10 +76,6 @@ interface InitializeMapProps {
     if (geocoder) {
       geocoderRef.current = geocoder;
       mapInstance.current?.addControl(geocoderRef.current);
-    }
-
-    if (waypoints.current?.length) {
-      //getRoute(mapInstance, waypoints, setRouteLength, access_token)
     }
   });
 
