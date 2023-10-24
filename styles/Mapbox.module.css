@@ -3,3 +3,8 @@
     position: relative;
     height: 100vh;
 }
+
+.disablePseudoElements::before,
+.disablePseudoElements::after {
+    content: none !important;
+}

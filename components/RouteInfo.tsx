@@ -1,7 +1,7 @@
 import { Typography, Input, Slider } from "@mui/material";
 import { DesignProps } from "../types/types";
-
-const RouteDesign = ({designProps}: DesignProps) => {
+import styles from '../styles/Mapbox.module.css'
+const RouteInfo = ({designProps}: DesignProps) => {
     const {
         routeColor,
         setRouteColor,
@@ -13,15 +13,18 @@ const RouteDesign = ({designProps}: DesignProps) => {
 
     return (
         <>
-            <Typography gutterBottom>
+            <Typography
+                style={{ marginTop: '16px'}}
+            >
                 Route color
             </Typography>
             <Input 
+                className={styles.disablePseudoElements}
                 type="color" 
                 value={routeColor} 
                 fullWidth
                 onChange={(e) => setRouteColor(e.target.value)}
-                style={{ marginBottom: '16px', cursor: 'pointer' }}
+                style={{ marginBottom: '6px', cursor: 'pointer', padding:'0 20px 0 0'}}
             />
             <Typography gutterBottom>
                 Route Thickness: {routeThickness}
@@ -35,7 +38,7 @@ const RouteDesign = ({designProps}: DesignProps) => {
                 }}
                 min={1}
                 max={10}
-                style={{ marginBottom: '16px' }}
+                style={{ marginBottom: '16px', width:'260px'}}
             />
             <Typography color="textSecondary">
                 {routeLength}
@@ -47,4 +50,4 @@ const RouteDesign = ({designProps}: DesignProps) => {
     );
 }
 
-export default RouteDesign
+export default RouteInfo

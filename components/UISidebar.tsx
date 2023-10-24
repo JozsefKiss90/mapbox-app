@@ -16,7 +16,7 @@ import {
   import PlanRoute from './PlanRoute'
   import ClearMarkers from './ClearMarkers'
   import RouteProfile from './RouteProfile'
-  import RouteDesign from './RouteDesign'
+  import RouteInfo from './RouteInfo'
   import { UISidebarProps } from '../types/types'
 
   const UISidebar = ({
@@ -73,14 +73,14 @@ import {
       <Drawer variant = "permanent"
       style = {
         {
-          width: '240px',
+          width: '300px',
           flexShrink: 0
         }
       } >
       <Box sx = {
         {
-          width: 260,
-          padding: 2
+          width: 300,
+          padding: '16px 0 16px 16px'
         }
       }
       role = "presentation" >
@@ -98,6 +98,7 @@ import {
         }
       }
       />
+      <div style={{display:'flex', flexDirection:'column',}}>
       <PlanRoute routeProps = {
         {
           ...commonProps,
@@ -122,12 +123,13 @@ import {
         }
       }
       />
+      </div>
       <RouteProfile profileProps={{
                   routeProfile,
                   setRouteProfile
           }}
       />
-      <RouteDesign designProps = {
+      <RouteInfo designProps = {
         {
             routeColor,
             setRouteColor,
