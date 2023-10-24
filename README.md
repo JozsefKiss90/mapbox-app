@@ -6,7 +6,7 @@ The app showcases the capabilities of
 
 ![Next.js](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![Mapbox JS](https://img.shields.io/badge/mapbox--js-5fdb07?style=for-the-badge&logo=mapbox&logoColor=white)
+![Mapbox JS](https://img.shields.io/badge/mapbox-GL-JS-3cc900?style=for-the-badge&logo=mapbox&logoColor=white)
 ## 🚀 Installation
 
 
