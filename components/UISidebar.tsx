@@ -122,11 +122,11 @@ import {
         }
       }
       />
-        <RouteProfile profileProps={{
-                    routeProfile,
-                    setRouteProfile
-            }}
-        />
+      <RouteProfile profileProps={{
+                  routeProfile,
+                  setRouteProfile
+          }}
+      />
       <RouteDesign designProps = {
         {
             routeColor,

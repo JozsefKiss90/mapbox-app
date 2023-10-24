@@ -28,7 +28,6 @@ interface InitializeMapProps {
     waypoints,
     access_token,
 }: InitializeMapProps): (() => void) => {
-  console.log(mapInstance, geocoderRef)
 
   let map: mapboxgl.Map | null = null;
 

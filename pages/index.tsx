@@ -18,7 +18,7 @@ interface Option {
 }
 
 const Home: NextPage = () => {
-
+    
     const mapContainerRef = useRef<HTMLDivElement | null>(null);
     const mapInstance = useRef<mapboxgl.Map | null>(null);
     const waypoints = useRef<Array<number[]>>([]);
@@ -31,7 +31,7 @@ const Home: NextPage = () => {
     const [selectedCoordinates, setSelectedCoordinates] = useState<[number, number] | null>(null);
     const [routeLength, setRouteLength] = useState<string>('');
     const [routeDuration, setRouteDuration] = useState<string>('');
-    console.log("ACCESS TOKEN IS: "+access_token)
+    console.log(markers)
     const addMarker = (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
       addMarkerBasedOnCoordinates(event.lngLat.lng, event.lngLat.lat, mapInstance, waypoints, setMarkers);
     };
