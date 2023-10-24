@@ -14,4 +14,4 @@ ENV NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=${NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
 
 RUN npm run build
 
-CMD ["node", "server.tsx"]
+CMD ["node", "server.js"]

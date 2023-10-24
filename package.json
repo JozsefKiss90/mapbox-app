@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "start:custom": "node server.tsx"
+    "start:custom": "node server.js"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
