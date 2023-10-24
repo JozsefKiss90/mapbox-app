@@ -1,5 +1,5 @@
 // MapInitializer.tsx
-import mapboxgl from 'mapbox-gl';
+import mapboxgl from 'mapbox-gl'
 
 const initializeMap = (
     mapContainer: HTMLDivElement | null,
@@ -11,20 +11,18 @@ const initializeMap = (
         style: 'mapbox://styles/mapbox/streets-v11',
         center: [17.9115, 47.0910], 
         zoom: 12
-    }) as any;
+    }) as any
 
     map.on('load', () => {
-        setMapInstanceCallback(map);
-    });
+        setMapInstanceCallback(map)
+    })
 
-    map.on('click', (event: any) => addMarkerCallback(event));
+    map.on('click', (event: any) => addMarkerCallback(event))
 
     return () => {
-        map.remove();
-        // Assuming you want to remove all markers when the map is removed
-        // If this isn't the case, you can adjust as needed
-        map.getLayer('markers').clear();
+        map.remove()
+        map.getLayer('markers').clear()
     }
 }
 
-export default initializeMap;
+export default initializeMap

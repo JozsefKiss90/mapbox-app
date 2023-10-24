@@ -1,9 +1,9 @@
-mapboxgl.accessToken = 'pk.eyJ1Ijoiam96c2Vma2lzcyIsImEiOiJjbG51dzR6ZXgwZHoyMmlxYzNoZW1mNDN3In0.XtchImmMmYc0zEcyiKFrgA'
 import type { NextPage } from 'next'
 import { useEffect, useRef } from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import initializeMap from './hooks/initializeMap'
+const access_token: string = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN!;
 
 const Home: NextPage = () => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null)
