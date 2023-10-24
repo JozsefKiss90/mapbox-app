@@ -31,7 +31,7 @@ const Home: NextPage = () => {
     const [selectedCoordinates, setSelectedCoordinates] = useState<[number, number] | null>(null);
     const [routeLength, setRouteLength] = useState<string>('');
     const [routeDuration, setRouteDuration] = useState<string>('');
-    console.log(markers)
+  
     const addMarker = (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
       addMarkerBasedOnCoordinates(event.lngLat.lng, event.lngLat.lat, mapInstance, waypoints, setMarkers);
     };

@@ -41,7 +41,7 @@ export interface SearchProps {
         setMarkers: Dispatch<SetStateAction<[mapboxgl.Marker] | []>>
     }
 }
-
+// redukálni ismétlődő patternt 
 export interface RouteProps {
     routeProps: {
         mapInstance: MutableRefObject<mapboxgl.Map | null>

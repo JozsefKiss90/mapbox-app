@@ -35,7 +35,7 @@ interface InitializeMapProps {
     map = new mapboxgl.Map({
       accessToken: access_token,
       container: mapContainerRef.current,
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: 'mapbox://styles/mapbox/streets-v11', 
       center: [17.9115, 47.0910],
       zoom: 12,
     });

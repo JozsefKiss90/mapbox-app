@@ -39,7 +39,7 @@ export const handleRoute = async (
 ) => {
     if (e) e.preventDefault() 
     try {
-     
+        console.log(waypoints)
         if (waypoints.current.length >= 2) {
             await getRoute({ 
                 mapInstance, 
@@ -71,6 +71,7 @@ export const handleAddMarkerClick = (
         setMarkers: any,
     ) => {
         e.preventDefault()
+        console.log(e)
         if (selectedCoordinates) {
             addMarkerBasedOnCoordinates(selectedCoordinates[0], selectedCoordinates[1], mapInstance, waypoints, setMarkers)
         }
@@ -88,6 +89,8 @@ export const addMarkerBasedOnCoordinates = (
             setMarkers((prevMarkers : any)=>[...prevMarkers, marker])
             marker.getElement().style.zIndex = "10"
             waypoints.current.push([lng, lat])
+            console.log(waypoints)
+
         } else {
             alert(`Maximum ${waypoints.current.length} markers can be added!`)
         }

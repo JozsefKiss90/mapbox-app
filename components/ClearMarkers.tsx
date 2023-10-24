@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { clearMarkers } from "../hooks/mapMethods";
 import { ClearProps } from "../types/types";
-
+// stylet ksizervezni
 const ClearMarkers = ({ clearProps } : ClearProps) => {
     const {
         waypoints,
