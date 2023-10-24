@@ -74,6 +74,10 @@ export const handleAddMarkerClick = (
             addMarkerBasedOnCoordinates(selectedCoordinates[0], selectedCoordinates[1], mapInstance, waypoints, setMarkers)
         }
     }
+
+const waypointExists = (lng: number, lat: number, waypoints: Array<number[]>) => {
+    return waypoints.some(waypoint => waypoint[0] === lng && waypoint[1] === lat)
+}  
     
 export const addMarkerBasedOnCoordinates = (
     lng: number, 
@@ -82,7 +86,10 @@ export const addMarkerBasedOnCoordinates = (
     waypoints: React.MutableRefObject<Array<number[]>>,
     setMarkers:any
     ) => {
-        if (mapInstance.current && waypoints.current.length < 3) {
+        if (waypointExists(lng, lat, waypoints.current)) {
+            return
+        }
+        if (mapInstance.current && waypoints.current.length < 4) {
             const marker = new mapboxgl.Marker({ color: 'blue' }).setLngLat([lng, lat]).addTo(mapInstance.current)
             setMarkers((prevMarkers : any)=>[...prevMarkers, marker])
             marker.getElement().style.zIndex = "10"

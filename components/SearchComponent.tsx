@@ -7,22 +7,18 @@ import CloseIcon from '@mui/icons-material/Close'
 
 const SearchComponent = ({searchProps} : SearchProps) => {
 
-    const [searchValues, setSearchValues] = useState<string[]>([''])
-    const [selectedCoordinatesList, setSelectedCoordinatesList] = useState<Array<[number, number] | null>>([null])
+    const [searchValueElements, setSearchValueElements] = useState<string[]>([''])
+    const [selectedCoordinateElements, setSelectedCoordinateElements] = useState<Array<[number, number] | null>>([null])
     const { 
         searchValue, 
         setSearchValue, 
         options, 
         geocoderRef, 
         handleSubmit, 
-        setSelectedCoordinates,
-        selectedCoordinates, 
         waypoints, 
         mapInstance,
         setMarkers
     } = searchProps    
-    
-    console.log(waypoints)
 
     return (
         <>
@@ -30,7 +26,7 @@ const SearchComponent = ({searchProps} : SearchProps) => {
             Map Settings
         </Typography>
         <form onSubmit={(e) =>handleSubmit(e, searchValue, geocoderRef)}>
-        {searchValues.map((value, index) => (
+        {searchValueElements.map((value, index) => (
             <>
             <div style={{ display: 'flex', alignItems: 'center' }}>
             <Autocomplete
@@ -46,7 +42,7 @@ const SearchComponent = ({searchProps} : SearchProps) => {
                     <TextField 
                         {...params} 
                         fullWidth 
-                        label="Search" 
+                        label="Enter an address or location" 
                         variant="outlined" 
                         onChange={(e) => handleInputChange(e, setSearchValue, geocoderRef)}
                         style={{ marginBottom: '16px' }}
@@ -54,26 +50,26 @@ const SearchComponent = ({searchProps} : SearchProps) => {
                 )}
 
                 onChange={(event, newValue: string | Option | null) => {
-                    const updatedCoordinates = [...selectedCoordinatesList]
+                    const updatedCoordinates = [...selectedCoordinateElements]
                     if (typeof newValue === 'object' && newValue && newValue.coordinates) {
                         updatedCoordinates[index] = newValue.coordinates
                     } else {
                         updatedCoordinates[index] = null
                     }
-                    setSelectedCoordinatesList(updatedCoordinates)
+                    setSelectedCoordinateElements(updatedCoordinates)
                 }}
                 />
-                {searchValues.length > 1 && index > 0 && (
+                {searchValueElements.length > 1 && index > 0 && (
                     <IconButton 
                         color="secondary" 
                         style={{marginBottom:'10px'}}
                         onClick={() => {
-                            const newSearchValues = [...searchValues]
+                            const newSearchValues = [...searchValueElements]
                             newSearchValues.splice(index, 1)
-                            setSearchValues(newSearchValues)
-                            const newCoordinatesList = [...selectedCoordinatesList]
+                            setSearchValueElements(newSearchValues)
+                            const newCoordinatesList = [...selectedCoordinateElements]
                             newCoordinatesList.splice(index, 1)
-                            setSelectedCoordinatesList(newCoordinatesList)
+                            setSelectedCoordinateElements(newCoordinatesList)
                         }}
                         size="small"
                     >
@@ -85,10 +81,10 @@ const SearchComponent = ({searchProps} : SearchProps) => {
             ))}
             <IconButton 
                 color="primary" 
-                disabled={selectedCoordinatesList[selectedCoordinatesList.length -1] === null}
+                disabled={selectedCoordinateElements[selectedCoordinateElements.length -1] === null}
                 onClick={() => {
-                    setSearchValues([...searchValues, ''])
-                    setSelectedCoordinatesList([...selectedCoordinatesList, null])
+                    setSearchValueElements([...searchValueElements, ''])
+                    setSelectedCoordinateElements([...selectedCoordinateElements, null])
                 }}
                 style={{marginBottom:'13px', padding:'0'}}
             >
@@ -102,7 +98,7 @@ const SearchComponent = ({searchProps} : SearchProps) => {
                 type="submit"
                 onClick={e => {
                     e.preventDefault()
-                    selectedCoordinatesList.forEach((coords, i) => {
+                    selectedCoordinateElements.forEach(coords => {
                         if (coords) {
                             handleAddMarkerClick(
                                 e, 
@@ -117,7 +113,7 @@ const SearchComponent = ({searchProps} : SearchProps) => {
                 }}
                 style={{ marginBottom: '16px', backgroundColor: '#02d12c', width:'160px' }}
             >
-                Add Marker
+                Add Marker <i style={{textTransform:'lowercase', fontStyle:'normal'}}>(s)</i>
             </Button>
         </form>
         </>
