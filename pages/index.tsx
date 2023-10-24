@@ -21,7 +21,7 @@ const Home: NextPage = () => {
   const [routeThickness, setRouteThickness] = useState<number>(5)
 
   const access_token : string   = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
-  console.log(access_token)
+ 
   useEffect(() => {
     if (mapContainerRef.current) {
       initializeMap(
