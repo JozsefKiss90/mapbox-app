@@ -18,9 +18,10 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (mapContainerRef.current) {
-      initializeMap(mapContainerRef.current, addMarker, setMapInstance);
+      initializeMap(mapContainerRef.current, addMarker, setMapInstance,access_token);
     }
   }, []);
+
   const getMarkerCoordinates = () => {
     return markersRef.current.map(marker => marker.getLngLat())
   }

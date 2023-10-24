@@ -4,9 +4,11 @@ import mapboxgl from 'mapbox-gl'
 const initializeMap = (
     mapContainer: HTMLDivElement | null,
     addMarkerCallback: (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => void,
-    setMapInstanceCallback: (map: mapboxgl.Map) => void
+    setMapInstanceCallback: (map: mapboxgl.Map) => void,
+    access_token:string
 ) => {
     const map = new mapboxgl.Map({
+        accessToken: access_token,
         container: mapContainer!,
         style: 'mapbox://styles/mapbox/streets-v11',
         center: [17.9115, 47.0910], 
