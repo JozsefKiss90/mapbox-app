@@ -1,34 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+---
+# Veszprém navigation app
 
-## Getting Started
+The app showcases the features of mapbox gl js library for creating custom online interactive maps. The app utilizes marker and route management while ensuring a user-friendly interface. Upon start the user navigated to the city of Veszprém where he/she can add markers, plan routes for different profiles and modify the style of the created routes.
 
-First, run the development server:
+## 🛠️ Built with
 
-```bash
-npm run dev
-# or
-yarn dev
+![Next.js](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![Mapbox JS](https://img.shields.io/badge/mapbox-3cc900?style=for-the-badge&logo=mapbox&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+## 🚀 Installation
+To run the Mapbox locally using Docker:
+```
+docker build -t jozsefkiss90/veszprem-mapbox-app .
+```
+```
+docker run -p 3000:3000 -e NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your access token
+```
+or pull form dockerhub
+```
+docker pull jozsefkiss90/veszprem-mapbox-app:latest
+```
+```
+docker pull jozsefkiss90/veszprem-mapbox-app:latest
+```
+```
+docker run -p 3000:3000 -e NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your access token jozsefkiss90/veszprem-mapbox-app:latest
+```
+To run the Mapbox locally using npm:
+in the terminal run command: 
+```
+npm run build
+```
+then run
+```
+npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---

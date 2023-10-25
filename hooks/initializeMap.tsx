@@ -7,7 +7,7 @@ interface Option {
   coordinates: [number, number]
 }
 
-interface InitializeMapProps {
+interface InitializeMapProps { 
     mapContainerRef: React.RefObject<HTMLDivElement>
     mapInstance: React.MutableRefObject<mapboxgl.Map | null>
     geocoderRef: React.MutableRefObject<MapboxGeocoder | null>
@@ -27,9 +27,11 @@ interface InitializeMapProps {
     setMarkers,
     waypoints,
     access_token,
-}: InitializeMapProps): (() => void) => {
+    mapLoadedRef,
+    onMapLoaded
+}: any): (() => void) => {
 
-  let map: mapboxgl.Map | null = null;
+  let map: mapboxgl.Map | null = null
 
   if (mapContainerRef?.current) {
     map = new mapboxgl.Map({
@@ -38,54 +40,57 @@ interface InitializeMapProps {
       style: 'mapbox://styles/mapbox/streets-v11', 
       center: [17.9115, 47.0910],
       zoom: 12,
-    });
+    })
   }
 
   const customMarker = new mapboxgl.Marker({
     color: 'orange',
     draggable: true,
-  });
+  })
 
   const geocoder = new MapboxGeocoder({
     accessToken: access_token,
     marker: customMarker,
     mapboxgl: mapboxgl,
-  });
+  })
 
   geocoder.on('results', (results: any) => {
     const options = results.features.map((feature: any) => ({
       label: feature.place_name,
       coordinates: feature.geometry.coordinates,
-    }));
-    setOptions(options);
+    }))
+    setOptions(options)
    
     if (mapInstance?.current) {
-      const currentZoom = mapInstance.current.getZoom();
+      const currentZoom = mapInstance.current.getZoom()
       mapInstance.current.flyTo({
         zoom: currentZoom,
         essential: true,
-      });
+      })
     }
-  });
+  })
 
   map?.on('load', () => {
     if (map) {
-      mapInstance.current = map;
+        mapInstance.current = map;
     }
     if (geocoder) {
-      geocoderRef.current = geocoder;
-      mapInstance.current?.addControl(geocoderRef.current);
+        geocoderRef.current = geocoder;
+        mapInstance.current?.addControl(geocoderRef.current);
     }
-  });
+    mapLoadedRef.current = true
+    map?.on('click', (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => addMarker(event));
+    onMapLoaded()
+});
 
-  map?.on('click', (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => addMarker(event));
+
 
   return () => {
-    map?.remove();
-    geocoder.onRemove(); 
-    waypoints.current?.forEach((marker: any) => marker.pop());
+    map?.remove()
+    geocoder.onRemove() 
+    waypoints.current?.forEach((marker: any) => marker.pop())
   }
   
 }
 
-export default initializeMap;
+export default initializeMap

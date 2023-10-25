@@ -14,12 +14,20 @@ const MapComponent: React.FC<MapComponentProps> = ({
     mapContainerRef, 
     mapInstance, 
     geocoderRef,
-    waypoints 
-  }) => {
-    
+    waypoints,
+    mapLoadedRef
+  }) => {  
+    console.log(mapLoadedRef.current)
     const addMarker = (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
+        console.log(mapLoadedRef.current)
+        if(!mapLoadedRef.current) return
         addMarkerBasedOnCoordinates(event.lngLat.lng, event.lngLat.lat, mapInstance, waypoints, setMarkers)
     }
+
+    const onMapLoaded = () => {
+        console.log("Map has loaded")
+    };
+    
 
     useEffect(() => {
         if (mapContainerRef.current) {
@@ -31,7 +39,9 @@ const MapComponent: React.FC<MapComponentProps> = ({
             setOptions,
             setMarkers,
             waypoints,
-            access_token
+            access_token,
+            mapLoadedRef,
+            onMapLoaded
         })
         }
     }, [access_token])

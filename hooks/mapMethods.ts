@@ -78,7 +78,7 @@ export const handleAddMarkerClick = (
 const waypointExists = (lng: number, lat: number, waypoints: Array<number[]>) => {
     return waypoints.some(waypoint => waypoint[0] === lng && waypoint[1] === lat)
 }  
-    
+     
 export const addMarkerBasedOnCoordinates = (
     lng: number, 
     lat: number, 

@@ -58,6 +58,7 @@ export interface MapComponentProps extends MapConfig {
     setMarkers: Dispatch<SetStateAction<[mapboxgl.Marker] | []>>
     mapContainerRef:  MutableRefObject<HTMLDivElement | null>
     geocoderRef: MutableRefObject<MapboxGeocoder | null>
+    mapLoadedRef:MutableRefObject<boolean>
 }
 
 export interface SidebarPropsState extends RouteSetterConfig, MapConfig {

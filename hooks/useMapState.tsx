@@ -15,6 +15,7 @@ export const useMapState = () => {
   const [selectedCoordinates, setSelectedCoordinates] = useState<[number, number] | null>(null)
   const [routeLength, setRouteLength] = useState<string>('')
   const [routeDuration, setRouteDuration] = useState<string>('')
+  const mapLoadedRef = useRef(false);
 
   const mapConfigProps = {
     mapInstance,
@@ -49,7 +50,7 @@ export const useMapState = () => {
   const sidebarProps = {
     ...mapConfigProps,
     ...searchProps,
-    ...markersProps,
+    ...markersProps, 
     ...routeDetailsProps,
     ...selectedCoordsProps
   }
@@ -59,7 +60,8 @@ export const useMapState = () => {
     setOptions,
     setMarkers,
     mapContainerRef,
-    geocoderRef
+    geocoderRef,
+    mapLoadedRef
   }
 
   return {
