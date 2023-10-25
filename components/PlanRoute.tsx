@@ -2,18 +2,19 @@ import { Button } from "@mui/material";
 import { handleRoute } from "../hooks/mapMethods";
 import { RouteProps } from "../types/types";
 
-const PlanRoute = ({ routeProps } : RouteProps) => {
-
-    const {
+const PlanRoute: React.FC<RouteProps> = ({ 
+    routeProps
+}) => {
+    const { 
         mapInstance,
         waypoints,
-        setRouteLength,
         access_token,
+        setRouteLength, 
         routeColor,
         routeThickness,
         routeProfile,
-        setRouteDuration
-    } = routeProps
+        setRouteDuration 
+    } = routeProps;
     
     return (
         <Button 

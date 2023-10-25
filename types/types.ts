@@ -1,3 +1,4 @@
+
 import { Dispatch, SetStateAction, MutableRefObject, ReactNode } from "react";
 
 export interface Option {
@@ -9,16 +10,20 @@ export interface RouteProviderProps {
     children: ReactNode;
 }
 
-export interface UISidebarProps {
+export interface MapConfig {
+    mapInstance: MutableRefObject<mapboxgl.Map | null>;
+    waypoints: MutableRefObject<number[][]>;
+    access_token: string;
+}
+
+
+export interface UISidebarProps extends MapConfig {
     options: Option[];
     setSearchValue:  Dispatch<SetStateAction<string>>;
     geocoderRef: MutableRefObject<MapboxGeocoder | null>;
     searchValue: string;
     setSelectedCoordinates: Dispatch<SetStateAction<[number, number] | null>>
     selectedCoordinates: [number, number] | null;
-    mapInstance: MutableRefObject<mapboxgl.Map | null>
-    waypoints: MutableRefObject<number[][]>
-    access_token: string;
     setRouteLength: Dispatch<SetStateAction<string>>
     routeLength: string;
     markers:  [mapboxgl.Marker] | []
@@ -43,14 +48,11 @@ export interface SearchProps {
 }
 
 export interface RouteProps {
-    routeProps: {
-        mapInstance: MutableRefObject<mapboxgl.Map | null>
-        waypoints: MutableRefObject<number[][]>
-        access_token:string,
-        setRouteLength: Dispatch<SetStateAction<string>>
-        routeColor:string,
-        routeThickness:number,
-        routeProfile:string,
+    routeProps: MapConfig & {
+        setRouteLength: Dispatch<SetStateAction<string>>,
+        routeColor: string,
+        routeThickness: number,
+        routeProfile: string,
         setRouteDuration: Dispatch<SetStateAction<string>>
     }
 }
