@@ -5,7 +5,7 @@ export interface Option {
     coordinates: [number, number]
   }  
 
-  export interface MapComponentProps {
+export interface MapComponentProps {
     access_token: string
     setOptions: Dispatch<React.SetStateAction<Option[]>>
     setMarkers: Dispatch<SetStateAction<[mapboxgl.Marker] | []>>
@@ -13,6 +13,14 @@ export interface Option {
     mapInstance: MutableRefObject<mapboxgl.Map | null>
     geocoderRef: MutableRefObject<MapboxGeocoder | null>
     waypoints: MutableRefObject<number[][]>
+}
+
+export interface SidebarPropsState {
+    mapInstance: MutableRefObject<mapboxgl.Map | null>
+    waypoints: MutableRefObject<number[][]>
+    access_token: string
+    setRouteLength: Dispatch<SetStateAction<string>>;
+    setRouteDuration: Dispatch<SetStateAction<string>>;
 }
 
 export interface RouteProviderProps {

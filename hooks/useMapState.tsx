@@ -43,7 +43,7 @@ export const useMapState = () => {
 
   const selectedCoordsProps = {
     selectedCoordinates,
-    setSelectedCoordinates
+    setSelectedCoordinates 
   };
 
   const sidebarProps = {
