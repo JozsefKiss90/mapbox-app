@@ -17,9 +17,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
     waypoints,
     mapLoadedRef
   }) => {  
-    console.log(mapLoadedRef.current)
     const addMarker = (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
-        console.log(mapLoadedRef.current)
         if(!mapLoadedRef.current) return
         addMarkerBasedOnCoordinates(event.lngLat.lng, event.lngLat.lat, mapInstance, waypoints, setMarkers)
     }
