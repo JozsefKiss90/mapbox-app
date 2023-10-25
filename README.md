@@ -11,10 +11,11 @@ The app showcases the features of mapbox gl js library for creating custom onlin
 ## 🚀 Installation
 To run the Mapbox locally using Docker:
 ```
-docker build -t jozsefkiss90/veszprem-mapbox-app .
+docker build -t veszprem-mapbox-app .
 ```
+then run
 ```
-docker run -p 3000:3000 -e NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your access token
+docker run -p 3000:3000 -e NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_access_token veszprem-mapbox-app
 ```
 or pull form dockerhub
 ```
@@ -22,10 +23,10 @@ docker pull jozsefkiss90/veszprem-mapbox-app:latest
 ```
 then run
 ```
-docker run -p 3000:3000 -e NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your access token jozsefkiss90/veszprem-mapbox-app:latest
+docker run -p 3000:3000 -e NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_access_token jozsefkiss90/veszprem-mapbox-app:latest
 ```
 To run the Mapbox app locally using npm:
-in the terminal run command: 
+In the terminal run command: 
 ```
 npm run build
 ```

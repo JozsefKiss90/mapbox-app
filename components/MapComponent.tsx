@@ -6,7 +6,7 @@ import initializeMap from '../hooks/initializeMap'
 import { addMarkerBasedOnCoordinates } from '../hooks/mapMethods'
 import styles from '../styles/Mapbox.module.css'
 import { MapComponentProps } from '../types/types'
-
+import { cleanupMap } from '../hooks/initializeMap'
 const MapComponent: React.FC<MapComponentProps> = ({ 
     access_token, 
     setOptions, 
@@ -17,9 +17,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
     waypoints,
     mapLoadedRef
   }) => {  
-    console.log(mapLoadedRef.current)
     const addMarker = (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
-        console.log(mapLoadedRef.current)
         if(!mapLoadedRef.current) return
         addMarkerBasedOnCoordinates(event.lngLat.lng, event.lngLat.lat, mapInstance, waypoints, setMarkers)
     }
@@ -27,7 +25,6 @@ const MapComponent: React.FC<MapComponentProps> = ({
     const onMapLoaded = () => {
         console.log("Map has loaded")
     };
-    
 
     useEffect(() => {
         if (mapContainerRef.current) {
@@ -42,7 +39,15 @@ const MapComponent: React.FC<MapComponentProps> = ({
             access_token,
             mapLoadedRef,
             onMapLoaded
-        })
+        }) .then(map => {
+            map.on('click', (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => addMarker(event));
+
+            cleanupMap(map, geocoderRef, waypoints);
+          })
+          .catch(error => {
+            console.error('Error initializing the map:', error);
+          });
+        
         }
     }, [access_token])
 

@@ -6,7 +6,7 @@ export const useMapState = () => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null)
   const mapInstance = useRef<mapboxgl.Map | null>(null)
   const waypoints = useRef<Array<number[]>>([])
-  const geocoderRef = useRef<any | null>(null)
+  const geocoderRef = useRef<MapboxGeocoder | null>(null)
   const access_token: string = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN!
   
   const [markers, setMarkers] = useState<[mapboxgl.Marker] | []>([])
