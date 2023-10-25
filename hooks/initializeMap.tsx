@@ -6,13 +6,8 @@ const initializeMap = ({
   mapContainerRef,
   mapInstance,
   geocoderRef,
-  addMarker,
   setOptions,
-  setMarkers,
-  waypoints,
   access_token,
-  mapLoadedRef,
-  onMapLoaded
 }: InitializeMapProps): Promise<mapboxgl.Map> => {
   return new Promise((resolve, reject) => {
 
@@ -63,8 +58,6 @@ const initializeMap = ({
         geocoderRef.current = geocoder
         map.addControl(geocoderRef.current)
       }
-      mapLoadedRef.current = true
-      onMapLoaded()
       resolve(map)
     })
 

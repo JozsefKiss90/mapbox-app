@@ -39,10 +39,10 @@ const MapComponent: React.FC<MapComponentProps> = ({
             setMarkers,
             waypoints,
             access_token,
-            mapLoadedRef,
-            onMapLoaded
         }) .then(map => {
             map.on('click', (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => addMarker(event))
+            mapLoadedRef.current = true
+            onMapLoaded()
           })
           .catch(error => {
             console.error('Error initializing the map:', error)

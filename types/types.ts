@@ -145,6 +145,4 @@ export interface InitializeMapProps {
     setMarkers: any
     waypoints: React.RefObject<number[][]>
     access_token: string,
-    mapLoadedRef:  React.MutableRefObject<boolean>,
-    onMapLoaded: ()=> void
 }
