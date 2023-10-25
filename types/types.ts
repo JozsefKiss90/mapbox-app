@@ -135,3 +135,16 @@ export interface GetRouteProps {
     routeProfile: string
     setRouteDuration: Dispatch<SetStateAction<string>>
   }
+
+export interface InitializeMapProps { 
+    mapContainerRef: React.RefObject<HTMLDivElement>
+    mapInstance: React.MutableRefObject<mapboxgl.Map | null>
+    geocoderRef: React.MutableRefObject<MapboxGeocoder | null>
+    addMarker: (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => void
+    setOptions: Dispatch<SetStateAction<Option[]>>
+    setMarkers: any
+    waypoints: React.RefObject<number[][]>
+    access_token: string,
+    mapLoadedRef:  React.MutableRefObject<boolean>,
+    onMapLoaded: ()=> void
+}

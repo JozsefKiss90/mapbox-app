@@ -1,22 +1,11 @@
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder"
 import mapboxgl from "mapbox-gl"
-import { Dispatch, SetStateAction } from "react"
+import { InitializeMapProps } from '../types/types'
 
 interface Option {
   label: string
   coordinates: [number, number]
 }
-
-interface InitializeMapProps { 
-    mapContainerRef: React.RefObject<HTMLDivElement>
-    mapInstance: React.MutableRefObject<mapboxgl.Map | null>
-    geocoderRef: React.MutableRefObject<MapboxGeocoder | null>
-    addMarker: (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => void
-    setOptions: Dispatch<SetStateAction<Option[]>>
-    setMarkers: any
-    waypoints: React.RefObject<number[][]>
-    access_token: string
-  }
 
   const initializeMap = ({
     mapContainerRef,
@@ -29,7 +18,7 @@ interface InitializeMapProps {
     access_token,
     mapLoadedRef,
     onMapLoaded
-}: any): (() => void) => {
+}: InitializeMapProps): (() => void) => {
 
   let map: mapboxgl.Map | null = null
 
@@ -84,12 +73,11 @@ interface InitializeMapProps {
 });
 
 
-
-  return () => {
-    map?.remove()
-    geocoder.onRemove() 
-    waypoints.current?.forEach((marker: any) => marker.pop())
-  }
+return () => {
+  map?.remove()
+  geocoder.onRemove() 
+  waypoints.current?.forEach((marker: any) => marker.pop())
+}
   
 }
 
