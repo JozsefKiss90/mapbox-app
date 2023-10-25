@@ -1,6 +1,6 @@
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
-import mapboxgl from "mapbox-gl";
-import { InitializeMapProps } from '../types/types';
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder"
+import mapboxgl from "mapbox-gl"
+import { InitializeMapProps } from '../types/types'
 
 const initializeMap = ({
   mapContainerRef,
@@ -25,52 +25,51 @@ const initializeMap = ({
       style: 'mapbox://styles/mapbox/streets-v11', 
       center: [17.9115, 47.0910],
       zoom: 12,
-    });
+    })
    }
 
     const customMarker = new mapboxgl.Marker({
       color: 'orange',
       draggable: true,
-    });
+    })
 
     const geocoder = new MapboxGeocoder({
       accessToken: access_token,
       marker: customMarker,
       mapboxgl: mapboxgl,
-    });
+    })
 
     geocoder.on('results', (results: any) => {
       const options = results.features.map((feature: any) => ({
         label: feature.place_name,
         coordinates: feature.geometry.coordinates,
-      }));
-      setOptions(options);
+      }))
+      setOptions(options)
 
       if (mapInstance?.current) {
-        const currentZoom = mapInstance.current.getZoom();
+        const currentZoom = mapInstance.current.getZoom()
         mapInstance.current.flyTo({
           zoom: currentZoom,
           essential: true,
-        });
+        })
       }
-    });
+    })
 
     map!.on('load', () => {
       if (map) {
-        mapInstance.current = map;
+        mapInstance.current = map
       }
       if (geocoder) {
-        geocoderRef.current = geocoder;
-        map.addControl(geocoderRef.current);
+        geocoderRef.current = geocoder
+        map.addControl(geocoderRef.current)
       }
-      mapLoadedRef.current = true;
-      map.on('click', (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => addMarker(event));
-      onMapLoaded();
-      resolve(map);
-    });
+      mapLoadedRef.current = true
+      onMapLoaded()
+      resolve(map)
+    })
 
-    map!.on('error', reject);
-  });
+    map!.on('error', reject)
+  })
 }
 
 export const cleanupMap = (
@@ -78,9 +77,9 @@ export const cleanupMap = (
   geocoder: React.RefObject<MapboxGeocoder | null>,
   waypoints: React.RefObject<Array<number[]>>
 ) => {
-  map?.remove();
-  geocoder.current?.onRemove();
+  map?.remove()
+  geocoder.current?.onRemove()
   waypoints.current?.forEach((marker: number[]) => marker.pop())
-};
+}
 
-export default initializeMap;
+export default initializeMap

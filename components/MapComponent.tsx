@@ -24,10 +24,10 @@ const MapComponent: React.FC<MapComponentProps> = ({
 
     const onMapLoaded = () => {
         console.log("Map has loaded")
-    };
+    }
 
     useEffect(() => {
-        let map: mapboxgl.Map | undefined;
+        let map: mapboxgl.Map | undefined
 
         if (mapContainerRef.current) {
         initializeMap({
@@ -42,17 +42,17 @@ const MapComponent: React.FC<MapComponentProps> = ({
             mapLoadedRef,
             onMapLoaded
         }) .then(map => {
-            map.on('click', (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => addMarker(event));
+            map.on('click', (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => addMarker(event))
           })
           .catch(error => {
-            console.error('Error initializing the map:', error);
-          });
+            console.error('Error initializing the map:', error)
+          })
         }
         return () => {
             if (map) {
-                cleanupMap(map, geocoderRef, waypoints);
+                cleanupMap(map, geocoderRef, waypoints)
             }
-        };
+        }
     }, [access_token])
 
     return <div ref={mapContainerRef} className={styles.container} />
