@@ -6,6 +6,7 @@ import RouteProfile from './RouteProfile';
 import RouteInfo from './RouteInfo';
 import { UISidebarProps } from '../types/types';
 import { useSidebarState } from '../hooks/useSidebarState';
+import styles from '../styles/Mapbox.module.css'
 
 const UISidebar = (props: UISidebarProps) => {
   const {
@@ -41,8 +42,8 @@ const UISidebar = (props: UISidebarProps) => {
   }
 
   return (
-    <Drawer variant="permanent" style={{ width: '300px', flexShrink: 0 }}>
-      <Box sx={{ width: 300, padding: '16px 0 16px 16px' }} role="presentation">
+    <Drawer variant="permanent" className={styles.drawer} >
+      <Box className={styles.box} role="presentation">
         <SearchComponent searchProps={{
           ...mapConfigProps,
           searchValue: props.searchValue,
@@ -51,14 +52,14 @@ const UISidebar = (props: UISidebarProps) => {
           geocoderRef: props.geocoderRef,
           handleSubmit,
           setMarkers: props.setMarkers
-        }} />
-        <div style={{display: 'flex', flexDirection: 'column'}}>
+        }}/>
+        <div className={styles.buttonContainer}>
           <PlanRoute routeProps={{
             ...mapConfigProps,
             ...routeConfigProps,
             ...designConfigProps,
             routeProfile,
-          }} />
+          }}/>
           <ClearMarkers clearProps={{
             ...mapConfigProps,
             ...routeConfigProps,
@@ -67,19 +68,19 @@ const UISidebar = (props: UISidebarProps) => {
             setSearchValue: props.setSearchValue,
             setMarkers: props.setMarkers,
             markers: props.markers,
-          }} />
+          }}/>
         </div>
         <RouteProfile profileProps={{
           routeProfile,
           setRouteProfile
-        }} />
+        }}/>
         <RouteInfo designProps={{
           ...designConfigProps,
           setRouteColor,
           setRouteThickness,
           routeLength: props.routeLength,
           routeDuration: props.routeDuration
-        }} />
+        }}/>
       </Box>
     </Drawer>
   );

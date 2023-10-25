@@ -1,4 +1,4 @@
-.toggleButton{
+.toggleButton {
     border-radius: 15px; 
     width: 70px; 
     padding: 5px 15px; 
@@ -8,8 +8,7 @@
     margin: 0 5px;
 }
 
-.toggleButtonGroup
-{
+.toggleButtonGroup {
     margin-bottom: '16px'; 
     display: 'flex'; 
     justify-content:center;

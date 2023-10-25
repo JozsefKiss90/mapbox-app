@@ -5,6 +5,7 @@ import { useState } from "react"
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import CloseIcon from '@mui/icons-material/Close'
 import React from "react"
+import styles from '../styles/Mapbox.module.css'
 
 const SearchComponent = ({searchProps} : SearchProps) => {
 
@@ -19,7 +20,7 @@ const SearchComponent = ({searchProps} : SearchProps) => {
         waypoints, 
         mapInstance,
         setMarkers
-    } = searchProps    
+    } = searchProps     
 
     return (
         <>
@@ -29,7 +30,7 @@ const SearchComponent = ({searchProps} : SearchProps) => {
         <form onSubmit={(e) =>handleSubmit(e, searchValue, geocoderRef)}>
         {searchValueElements.map((value, index) => (
             <React.Fragment key={index}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div className={styles.searchBar}>
             <Autocomplete
                 key={index}
                 value={value}
@@ -81,13 +82,13 @@ const SearchComponent = ({searchProps} : SearchProps) => {
                 </React.Fragment>
             ))}
             <IconButton 
+                className={styles.addressButton}
                 color="primary" 
                 disabled={selectedCoordinateElements[selectedCoordinateElements.length -1] === null}
                 onClick={() => {
                     setSearchValueElements([...searchValueElements, ''])
                     setSelectedCoordinateElements([...selectedCoordinateElements, null])
                 }}
-                style={{marginBottom:'13px', padding:'0'}}
             >
                 <AddCircleIcon/>
                 <Typography variant="body1" style={{ marginLeft: '8px' }}>
@@ -95,6 +96,7 @@ const SearchComponent = ({searchProps} : SearchProps) => {
                 </Typography>
             </IconButton>
             <Button 
+                className={styles.buttons}
                 variant="contained" 
                 type="submit"
                 onClick={e => {
@@ -112,7 +114,7 @@ const SearchComponent = ({searchProps} : SearchProps) => {
                         }
                     })
                 }}
-                style={{ marginBottom: '16px', backgroundColor: '#02d12c', width:'160px' }}
+                style={{backgroundColor: '#02d12c'}}
             >
                 Add Marker <i style={{textTransform:'lowercase', fontStyle:'normal'}}>(s)</i>
             </Button>

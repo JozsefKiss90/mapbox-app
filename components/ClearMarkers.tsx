@@ -1,12 +1,13 @@
 import { Button } from "@mui/material";
 import { clearMarkers } from "../hooks/mapMethods";
-import { ClearProps } from "../types/types";
-// stylet ksizervezni
+import { ClearProps } from "../types/types"; 
+import styles from '../styles/Mapbox.module.css'
+
 const ClearMarkers = ({ clearProps } : ClearProps) => {
     const {
         waypoints,
         mapInstance,
-        setSelectedCoordinates,
+        setSelectedCoordinates, 
         setSearchValue,
         setMarkers,
         markers,
@@ -16,6 +17,7 @@ const ClearMarkers = ({ clearProps } : ClearProps) => {
     
     return (
         <Button 
+            className={styles.buttons}
             variant="contained" 
             color="primary" 
             type="submit"
@@ -31,8 +33,7 @@ const ClearMarkers = ({ clearProps } : ClearProps) => {
                 setRouteLength,
                 setRouteDuration
             )}
-            style={{ marginBottom: '16px', width:'160px' }}
-            >
+        >
             Clear markers
         </Button>
     );

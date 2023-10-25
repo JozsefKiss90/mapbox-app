@@ -3,8 +3,8 @@ import mapboxgl from "mapbox-gl"
 import { Dispatch, SetStateAction } from "react"
 
 interface Option {
-  label: string;
-  coordinates: [number, number];
+  label: string
+  coordinates: [number, number]
 }
 
 interface InitializeMapProps {

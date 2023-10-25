@@ -1,16 +1,5 @@
 import { Feature, LineString } from "geojson"
-import { Expression, StyleFunction } from "mapbox-gl"
-
-interface GetRouteProps {
-    mapInstance: React.RefObject<mapboxgl.Map>
-    waypoints: React.RefObject<number[][]>
-    setRouteLength: (length: string) => void
-    access_token: string | undefined
-    routeColor: string
-    routeThickness: number,
-    routeProfile: string,
-    setRouteDuration:(length: string) => void
-}
+import { GetRouteProps } from "../types/types";
 
 const getRoute = async ({
     mapInstance, 

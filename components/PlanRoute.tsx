@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import { handleRoute } from "../hooks/mapMethods";
 import { RouteProps } from "../types/types";
+import styles from '../styles/Mapbox.module.css' 
 
 const PlanRoute = ({ routeProps } : RouteProps) => {
 
@@ -17,6 +18,7 @@ const PlanRoute = ({ routeProps } : RouteProps) => {
     
     return (
         <Button 
+            className={styles.buttons}
             variant="contained" 
             color="secondary" 
             onClick={e=> handleRoute(
@@ -30,8 +32,7 @@ const PlanRoute = ({ routeProps } : RouteProps) => {
                 routeProfile,
                 setRouteDuration
                 )}
-            style={{ marginBottom: '16px', width:'160px' }} 
-        >
+        > 
             Plan Route
         </Button>
     );

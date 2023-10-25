@@ -8,3 +8,33 @@
 .disablePseudoElements::after {
     content: none !important;
 }
+
+.buttons {
+    margin-bottom: 16px;
+    width: 160px;
+}
+
+.searchBar {
+    display: flex;
+    align-items: center;
+}
+
+.addressButton {
+    margin-bottom: 13px;
+    padding: 0;
+}
+
+.box {
+    width: 300px;
+    padding: 16px 0 16px 16px;
+}
+
+.buttonContainer {
+    display: 'flex';
+    flex-direction: column;
+}
+
+.drawer {
+    width: 300px;
+    flex-shrink: 0;
+}
