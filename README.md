@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# veszprem-map
-=======
 ---
 # Veszprém navigation app
 
@@ -40,4 +37,3 @@ npm run start
 ```
 
 ---
->>>>>>> v2
