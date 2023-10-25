@@ -27,6 +27,8 @@ const MapComponent: React.FC<MapComponentProps> = ({
     };
 
     useEffect(() => {
+        let map: mapboxgl.Map | undefined;
+
         if (mapContainerRef.current) {
         initializeMap({
             mapContainerRef,
@@ -41,14 +43,16 @@ const MapComponent: React.FC<MapComponentProps> = ({
             onMapLoaded
         }) .then(map => {
             map.on('click', (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => addMarker(event));
-
-            cleanupMap(map, geocoderRef, waypoints);
           })
           .catch(error => {
             console.error('Error initializing the map:', error);
           });
-        
         }
+        return () => {
+            if (map) {
+                cleanupMap(map, geocoderRef, waypoints);
+            }
+        };
     }, [access_token])
 
     return <div ref={mapContainerRef} className={styles.container} />
