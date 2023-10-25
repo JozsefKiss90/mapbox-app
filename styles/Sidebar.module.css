@@ -1,0 +1,15 @@
+.toggleButton {
+    border-radius: 15px; 
+    width: 70px; 
+    padding: 5px 15px; 
+    font-size: 0.9rem; 
+    border: 1px solid #586375; 
+    text-transform: none; 
+    margin: 0 5px;
+}
+
+.toggleButtonGroup {
+    margin-bottom: '16px'; 
+    display: 'flex'; 
+    justify-content:center;
+}
