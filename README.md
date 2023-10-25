@@ -13,6 +13,7 @@ To run the Mapbox locally using Docker:
 ```
 docker build -t veszprem-mapbox-app .
 ```
+then run
 ```
 docker run -p 3000:3000 -e NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_access_token veszprem-mapbox-app
 ```
