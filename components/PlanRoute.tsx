@@ -32,6 +32,7 @@ const PlanRoute = ({ routeProps } : RouteProps) => {
                 routeProfile,
                 setRouteDuration
                 )}
+            style={{marginBottom:'16px'}}
         > 
             Plan Route
         </Button>

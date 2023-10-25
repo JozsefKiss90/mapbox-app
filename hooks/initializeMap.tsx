@@ -23,14 +23,8 @@ const initializeMap = ({
     })
    }
 
-    const customMarker = new mapboxgl.Marker({
-      color: 'orange',
-      draggable: true,
-    })
-
     const geocoder = new MapboxGeocoder({
       accessToken: access_token,
-      marker: customMarker,
       mapboxgl: mapboxgl,
     })
 

@@ -53,7 +53,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
                 cleanupMap(map, geocoderRef, waypoints)
             }
         }
-    }, [access_token])
+    }, [access_token, mapContainerRef])
 
     return <div ref={mapContainerRef} className={styles.container} />
   }

@@ -114,7 +114,7 @@ const SearchComponent = ({searchProps} : SearchProps) => {
                         }
                     })
                 }}
-                style={{backgroundColor: '#02d12c'}}
+                style={{backgroundColor: '#02d12c', marginBottom:'16px'}}
             >
                 Add Marker <i style={{textTransform:'lowercase', fontStyle:'normal'}}>(s)</i>
             </Button>
