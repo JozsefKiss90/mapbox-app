@@ -5,11 +5,11 @@ import { ClearProps } from "../types/types";
 const ClearMarkers = ({ clearProps } : ClearProps) => {
     const {
         waypoints,
+        mapInstance,
         setSelectedCoordinates,
         setSearchValue,
         setMarkers,
         markers,
-        mapInstance,
         setRouteLength,
         setRouteDuration
     } = clearProps

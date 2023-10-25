@@ -37,113 +37,111 @@ import {
     routeDuration
   }: UISidebarProps) => {
   
-    const {
-        routeColor, 
-        setRouteColor, 
-        routeThickness, 
-        setRouteThickness, 
-        routeProfile, 
-        setRouteProfile
-      } = useContext(RouteContext) as any
+  const {
+      routeColor, 
+      setRouteColor, 
+      routeThickness, 
+      setRouteThickness, 
+      routeProfile, 
+      setRouteProfile
+    } = useContext(RouteContext) as any
   
-    useEffect(() => {
-      if (mapInstance.current && mapInstance.current.getLayer('route')) {
-        mapInstance.current.setPaintProperty('route', 'line-color', routeColor)
-        mapInstance.current.setPaintProperty('route', 'line-width', routeThickness)
-      }
-    }, [routeColor, routeThickness, mapInstance])
-  
-    const handleRouteCallback = useCallback(() => {
-      handleRoute(null, mapInstance, waypoints, setRouteLength, access_token, routeColor, routeThickness, routeProfile, setRouteDuration)
-    }, [mapInstance, waypoints, setRouteLength, access_token, routeColor, routeThickness, routeProfile, setRouteDuration])
-  
-    useEffect(() => {
-      if (mapInstance.current && mapInstance.current.getLayer('route')) {
-        handleRouteCallback()
-      }
-    }, [mapInstance, routeProfile, handleRouteCallback])
-  
-    const commonProps = {
-      mapInstance,
-      waypoints,
-      access_token
+  useEffect(() => {
+    if (mapInstance.current && mapInstance.current.getLayer('route')) {
+      mapInstance.current.setPaintProperty('route', 'line-color', routeColor)
+      mapInstance.current.setPaintProperty('route', 'line-width', routeThickness)
     }
-  
-    return ( 
-      <Drawer variant = "permanent"
-      style = {
-        {
-          width: '300px',
-          flexShrink: 0
-        }
-      } >
-      <Box sx = {
-        {
-          width: 300,
-          padding: '16px 0 16px 16px'
-        }
-      }
-      role = "presentation" >
-      <SearchComponent searchProps = {
-        {
-          ...commonProps,
-          searchValue,
-          setSearchValue,
-          options,
-          geocoderRef,
-          handleSubmit,
-          setSelectedCoordinates,
-          selectedCoordinates,
-          setMarkers
-        }
-      }
-      />
-      <div style={{display:'flex', flexDirection:'column',}}>
-      <PlanRoute routeProps = {
-        {
-          ...commonProps,
-          setRouteLength,
-          routeColor: routeColor,
-          routeThickness: routeThickness,
-          routeProfile: routeProfile,
-          setRouteDuration
-        }
-      }
-      />
-      <ClearMarkers clearProps = {
-        {
-          ...commonProps,
-          waypoints,
-          setSelectedCoordinates,
-          setSearchValue,
-          setMarkers,
-          markers,
-          setRouteLength,
-          setRouteDuration
-        }
-      }
-      />
-      </div>
-      <RouteProfile profileProps={{
-                  routeProfile,
-                  setRouteProfile
-          }}
-      />
-      <RouteInfo designProps = {
-        {
-            routeColor,
-            setRouteColor,
-            routeThickness,
-            setRouteThickness,
-            routeLength,
-            routeDuration
-        }
-      }
-      />
-      </Box> 
-      </Drawer>
-    )
+  }, [routeColor, routeThickness, mapInstance])
+
+  const handleRouteCallback = useCallback(() => {
+    handleRoute(null, mapInstance, waypoints, setRouteLength, access_token, routeColor, routeThickness, routeProfile, setRouteDuration)
+  }, [mapInstance, waypoints, setRouteLength, access_token, routeColor, routeThickness, routeProfile, setRouteDuration])
+
+  useEffect(() => {
+    if (mapInstance.current && mapInstance.current.getLayer('route')) {
+      handleRouteCallback()
+    }
+  }, [mapInstance, routeProfile, handleRouteCallback])
+
+  const mapConfigProps = {
+    mapInstance,
+    waypoints,
+    access_token
   }
+
+  return ( 
+    <Drawer variant = "permanent"
+    style = {
+      {
+        width: '300px',
+        flexShrink: 0
+      }
+    } >
+    <Box sx = {
+      {
+        width: 300,
+        padding: '16px 0 16px 16px'
+      }
+    }
+    role = "presentation" >
+    <SearchComponent searchProps = {
+      {
+        ...mapConfigProps,
+        searchValue,
+        setSearchValue,
+        options,
+        geocoderRef,
+        handleSubmit,
+        setMarkers
+      }
+    }
+    />
+    <div style={{display:'flex', flexDirection:'column',}}>
+    <PlanRoute routeProps = {
+      {
+        ...mapConfigProps,
+        setRouteLength,
+        routeColor: routeColor,
+        routeThickness: routeThickness,
+        routeProfile: routeProfile,
+        setRouteDuration
+      }
+    }
+    />
+    <ClearMarkers clearProps = {
+      {
+        ...mapConfigProps,
+        waypoints,
+        setSelectedCoordinates,
+        setSearchValue,
+        setMarkers,
+        markers,
+        setRouteLength,
+        setRouteDuration
+      }
+    }
+    />
+    </div>
+    <RouteProfile profileProps={{
+                routeProfile,
+                setRouteProfile
+        }}
+    />
+    <RouteInfo designProps = {
+      {
+          routeColor,
+          setRouteColor,
+          routeThickness,
+          setRouteThickness,
+          routeLength,
+          routeDuration
+      }
+    }
+    />
+    </Box> 
+    </Drawer>
+  )
+}
   
-  export default UISidebar
+export default UISidebar
   

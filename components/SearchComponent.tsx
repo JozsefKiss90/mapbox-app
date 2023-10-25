@@ -4,6 +4,7 @@ import { SearchProps, Option } from "../types/types"
 import { useState } from "react"
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import CloseIcon from '@mui/icons-material/Close'
+import React from "react"
 
 const SearchComponent = ({searchProps} : SearchProps) => {
 
@@ -27,7 +28,7 @@ const SearchComponent = ({searchProps} : SearchProps) => {
         </Typography>
         <form onSubmit={(e) =>handleSubmit(e, searchValue, geocoderRef)}>
         {searchValueElements.map((value, index) => (
-            <>
+            <React.Fragment key={index}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
             <Autocomplete
                 key={index}
@@ -77,7 +78,7 @@ const SearchComponent = ({searchProps} : SearchProps) => {
                     </IconButton>
                 )}
                 </div>
-                </>
+                </React.Fragment>
             ))}
             <IconButton 
                 color="primary" 
