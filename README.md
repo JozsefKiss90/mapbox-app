@@ -1,7 +1,8 @@
 ---
 # Veszprém navigation app
 
-The app showcases the capabilities of 
+The app showcases the features of mapbox gl js library for creating custom online interactive maps. The app utilizes marker and route management while ensuring a user-friendly interface. Upon start the user navigated to the city of Veszprém where he/she can add markers, plan routes for different profiles and modify the style of the created routes.
+
 ## 🛠️ Built with
 
 ![Next.js](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
