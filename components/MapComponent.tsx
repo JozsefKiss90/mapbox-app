@@ -20,7 +20,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
   const [isLoading, setIsLoading] = useState(true);
 
   const addMarker = useCallback((event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
-    addMarkerBasedOnCoordinates(event.lngLat.lng, event.lngLat.lat, mapInstance.current, waypoints, setMarkers);
+    addMarkerBasedOnCoordinates(event.lngLat.lng, event.lngLat.lat, mapInstance, waypoints, setMarkers);
   }, [mapInstance, waypoints, setMarkers]);
   
 

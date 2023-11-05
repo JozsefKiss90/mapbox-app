@@ -36,7 +36,7 @@ interface InitializeMapProps {
       accessToken: access_token,
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/streets-v11', 
-      center: [17.9115, 47.0910],
+      center: [20.1414, 46.2530],  
       zoom: 12,
     })
   }
@@ -70,16 +70,16 @@ interface InitializeMapProps {
 
   map?.on('load', () => {
     if (map) {
-      mapInstance.current = map;
+      mapInstance.current = map
     }
     if (geocoder) {
-      geocoderRef.current = geocoder;
-      mapInstance.current?.addControl(geocoderRef.current);
+      geocoderRef.current = geocoder
+      mapInstance.current?.addControl(geocoderRef.current)
     }
-    mapLoadedRef.current = true; // This needs to be set before calling onMapLoaded.
-    console.log("map is loaded");
-    onMapLoaded(); // This should set isLoading to false.
-  });
+    mapLoadedRef.current = true 
+    console.log("map is loaded")
+    onMapLoaded()
+  })
   
   return () => {
     map?.remove()
