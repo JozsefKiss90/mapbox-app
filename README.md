@@ -8,23 +8,11 @@ The app showcases the features of mapbox gl js library for creating custom onlin
 ![Next.js](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![Mapbox JS](https://img.shields.io/badge/mapbox-3cc900?style=for-the-badge&logo=mapbox&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+
+## 🖥️ Visit the site
+You can open the application [`here`](https://mapbox-navigation-app-a3fb395cedad.herokuapp.com/).
+
 ## 🚀 Installation
-To run the Mapbox locally using Docker:
-```
-docker build -t veszprem-mapbox-app .
-```
-then run
-```
-docker run -p 3000:3000 -e NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_access_token veszprem-mapbox-app
-```
-or pull form dockerhub
-```
-docker pull jozsefkiss90/veszprem-mapbox-app:latest
-```
-then run
-```
-docker run -p 3000:3000 -e NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_access_token jozsefkiss90/veszprem-mapbox-app:latest
-```
 To run the Mapbox app locally using npm:
 after cloning the repository, create a .env.local file in the root of the project and add the following line:
 ```
@@ -36,7 +24,7 @@ npm run build
 ```
 then start the app with command: 
 ```
-npm run start
+npm start
 ```
 
 ---
