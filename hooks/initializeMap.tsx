@@ -22,7 +22,9 @@ interface InitializeMapProps {
     mapContainerRef,
     mapInstance,
     geocoderRef,
+    addMarker,
     setOptions,
+    setMarkers,
     waypoints,
     access_token,
     mapLoadedRef,
@@ -36,11 +38,11 @@ interface InitializeMapProps {
       accessToken: access_token,
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/streets-v11', 
-      center: [20.1414, 46.2530],  
+      center: [20.1414, 46.2530], 
       zoom: 12,
     })
   }
-
+  
   const customMarker = new mapboxgl.Marker({
     color: 'orange',
     draggable: true,
@@ -70,17 +72,17 @@ interface InitializeMapProps {
 
   map?.on('load', () => {
     if (map) {
-      mapInstance.current = map
+        mapInstance.current = map;
     }
     if (geocoder) {
-      geocoderRef.current = geocoder
-      mapInstance.current?.addControl(geocoderRef.current)
+        geocoderRef.current = geocoder;
+        mapInstance.current?.addControl(geocoderRef.current);
     }
-    mapLoadedRef.current = true 
-    console.log("map is loaded")
+    mapLoadedRef.current = true
+    map?.on('click', (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => addMarker(event));
     onMapLoaded()
-  })
-  
+});
+
   return () => {
     map?.remove()
     geocoder.onRemove() 

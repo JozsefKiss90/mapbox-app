@@ -107,7 +107,7 @@ const SearchComponent = ({searchProps} : SearchProps) => {
                             handleAddMarkerClick(
                                 e, 
                                 coords,
-                                mapInstance.current,
+                                mapInstance,
                                 waypoints,
                                 addMarkerBasedOnCoordinates,
                                 setMarkers
