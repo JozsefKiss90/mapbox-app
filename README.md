@@ -26,11 +26,15 @@ then run
 docker run -p 3000:3000 -e NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_access_token jozsefkiss90/veszprem-mapbox-app:latest
 ```
 To run the Mapbox app locally using npm:
-In the terminal run command: 
+after cloning the repository, create a .env.local file in the root of the project and add the following line:
+```
+NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_access_token
+```
+in the terminal, run the following command to build the project:
 ```
 npm run build
 ```
-then run
+then start the app with command: 
 ```
 npm run start
 ```
