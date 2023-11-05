@@ -1,72 +1,92 @@
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder"
 import mapboxgl from "mapbox-gl"
-import { InitializeMapProps } from '../types/types'
+import { Dispatch, SetStateAction } from "react"
 
-const initializeMap = ({
-  mapContainerRef,
-  mapInstance,
-  geocoderRef,
-  setOptions,
-  access_token,
-}: InitializeMapProps): Promise<mapboxgl.Map> => {
-  return new Promise((resolve, reject) => {
+interface Option {
+  label: string
+  coordinates: [number, number]
+}
 
-    let map : mapboxgl.Map
+interface InitializeMapProps { 
+    mapContainerRef: React.RefObject<HTMLDivElement>
+    mapInstance: React.MutableRefObject<mapboxgl.Map | null>
+    geocoderRef: React.MutableRefObject<MapboxGeocoder | null>
+    addMarker: (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => void
+    setOptions: Dispatch<SetStateAction<Option[]>>
+    setMarkers: any
+    waypoints: React.RefObject<number[][]>
+    access_token: string
+  }
 
-   if(mapContainerRef.current){
-     map = new mapboxgl.Map({
+  const initializeMap = ({
+    mapContainerRef,
+    mapInstance,
+    geocoderRef,
+    setOptions,
+    waypoints,
+    access_token,
+    mapLoadedRef,
+    onMapLoaded
+}: any): (() => void) => {
+
+  let map: mapboxgl.Map | null = null
+
+  if (mapContainerRef?.current) {
+    map = new mapboxgl.Map({
       accessToken: access_token,
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/streets-v11', 
       center: [17.9115, 47.0910],
       zoom: 12,
     })
-   }
+  }
 
-    const geocoder = new MapboxGeocoder({
-      accessToken: access_token,
-      mapboxgl: mapboxgl,
-    })
-
-    geocoder.on('results', (results: any) => {
-      const options = results.features.map((feature: any) => ({
-        label: feature.place_name,
-        coordinates: feature.geometry.coordinates,
-      }))
-      setOptions(options)
-
-      if (mapInstance?.current) {
-        const currentZoom = mapInstance.current.getZoom()
-        mapInstance.current.flyTo({
-          zoom: currentZoom,
-          essential: true,
-        })
-      }
-    })
-
-    map!.on('load', () => {
-      if (map) {
-        mapInstance.current = map
-      }
-      if (geocoder) {
-        geocoderRef.current = geocoder
-        map.addControl(geocoderRef.current)
-      }
-      resolve(map)
-    })
-
-    map!.on('error', reject)
+  const customMarker = new mapboxgl.Marker({
+    color: 'orange',
+    draggable: true,
   })
-}
 
-export const cleanupMap = (
-  map: mapboxgl.Map,
-  geocoder: React.RefObject<MapboxGeocoder | null>,
-  waypoints: React.RefObject<Array<number[]>>
-) => {
-  map?.remove()
-  geocoder.current?.onRemove()
-  waypoints.current?.forEach((marker: number[]) => marker.pop())
+  const geocoder = new MapboxGeocoder({
+    accessToken: access_token,
+    marker: customMarker,
+    mapboxgl: mapboxgl,
+  })
+
+  geocoder.on('results', (results: any) => {
+    const options = results.features.map((feature: any) => ({
+      label: feature.place_name,
+      coordinates: feature.geometry.coordinates,
+    }))
+    setOptions(options)
+   
+    if (mapInstance?.current) {
+      const currentZoom = mapInstance.current.getZoom()
+      mapInstance.current.flyTo({
+        zoom: currentZoom,
+        essential: true,
+      })
+    }
+  })
+
+  map?.on('load', () => {
+    if (map) {
+      mapInstance.current = map;
+    }
+    if (geocoder) {
+      geocoderRef.current = geocoder;
+      mapInstance.current?.addControl(geocoderRef.current);
+    }
+    mapLoadedRef.current = true; // This needs to be set before calling onMapLoaded.
+    console.log("map is loaded");
+    onMapLoaded(); // This should set isLoading to false.
+  });
+  
+  return () => {
+    map?.remove()
+    geocoder.onRemove() 
+    waypoints.current?.forEach((marker: any) => marker.pop())
+  }
+  
 }
 
 export default initializeMap

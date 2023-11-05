@@ -1,51 +1,51 @@
 import { Dispatch, SetStateAction, MutableRefObject, ReactNode } from "react"
 
 interface MapConfig {
-    mapInstance: MutableRefObject<mapboxgl.Map | null>;
-    waypoints: MutableRefObject<number[][]>;
-    access_token: string;
+    mapInstance: MutableRefObject<mapboxgl.Map | null>
+    waypoints: MutableRefObject<number[][]>
+    access_token: string
 }
 
 interface SearchConfig {
-    searchValue: string;
-    setSearchValue: Dispatch<SetStateAction<string>>;
+    searchValue: string
+    setSearchValue: Dispatch<SetStateAction<string>>
 }
 
 interface GeocoderConfig {
-    geocoderRef: MutableRefObject<MapboxGeocoder | null>;
-    handleSubmit: (e: React.FormEvent<HTMLFormElement>, searchValue: string, geocoderRef: React.MutableRefObject<MapboxGeocoder | null>) => void;
+    geocoderRef: MutableRefObject<MapboxGeocoder | null>
+    handleSubmit: (e: React.FormEvent<HTMLFormElement>, searchValue: string, geocoderRef: React.MutableRefObject<MapboxGeocoder | null>) => void
 }
 
 interface RouteDetailConfig {
-    routeLength: string;
-    routeDuration: string;
+    routeLength: string
+    routeDuration: string
 }
 
 interface MarkersConfig {
-    markers: [mapboxgl.Marker] | [];
-    setMarkers: Dispatch<SetStateAction<[mapboxgl.Marker] | []>>;
+    markers: [mapboxgl.Marker] | []
+    setMarkers: Dispatch<SetStateAction<[mapboxgl.Marker] | []>>
 }
 
 interface SelectedCoordsConfig {
-    selectedCoordinates: [number, number] | null;
-    setSelectedCoordinates: Dispatch<SetStateAction<[number, number] | null>>;
+    selectedCoordinates: [number, number] | null
+    setSelectedCoordinates: Dispatch<SetStateAction<[number, number] | null>>
 }
 
 interface DesignConfig {
-    routeColor: string;
-    setRouteColor: Dispatch<SetStateAction<string>>;
-    routeThickness: number;
-    setRouteThickness: Dispatch<SetStateAction<number>>;
+    routeColor: string
+    setRouteColor: Dispatch<SetStateAction<string>>
+    routeThickness: number
+    setRouteThickness: Dispatch<SetStateAction<number>>
 }
 
 interface WayPointsConfig {
-    mapInstance: MutableRefObject<mapboxgl.Map | null>;
-    waypoints: MutableRefObject<number[][]>;
+    mapInstance: MutableRefObject<mapboxgl.Map | null>
+    waypoints: MutableRefObject<number[][]>
 }
 
 interface RouteSetterConfig {
-    setRouteLength: Dispatch<SetStateAction<string>>;
-    setRouteDuration: Dispatch<SetStateAction<string>>;
+    setRouteLength: Dispatch<SetStateAction<string>>
+    setRouteDuration: Dispatch<SetStateAction<string>>
 }
 
 export interface Option {
@@ -82,7 +82,7 @@ export interface UISidebarProps extends
 
 export interface SearchProps {
     searchProps: SearchConfig & GeocoderConfig & WayPointsConfig & {
-        options: Option[];
+        options: Option[]
         setMarkers: Dispatch<SetStateAction<[mapboxgl.Marker] | []>>
     }
 }
@@ -117,12 +117,12 @@ export interface DesignProps {
 }
 
 export interface RouteContextType {
-    routeColor: string;
-    setRouteColor: React.Dispatch<React.SetStateAction<string>>;
-    routeThickness: number;
-    setRouteThickness: React.Dispatch<React.SetStateAction<number>>;
-    routeProfile: string;
-    setRouteProfile: React.Dispatch<React.SetStateAction<string>>;
+    routeColor: string
+    setRouteColor: React.Dispatch<React.SetStateAction<string>>
+    routeThickness: number
+    setRouteThickness: React.Dispatch<React.SetStateAction<number>>
+    routeProfile: string
+    setRouteProfile: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface GetRouteProps {

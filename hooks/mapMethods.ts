@@ -59,12 +59,12 @@ export const handleRoute = async (
 export const handleAddMarkerClick = (    
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     selectedCoordinates: [number, number] | null,
-    mapInstance: React.MutableRefObject<mapboxgl.Map | null>, 
+    mapInstance: mapboxgl.Map | null, 
     waypoints: React.MutableRefObject<Array<number[]>>,
     addMarkerBasedOnCoordinates: (
         lng: number, 
         lat: number, 
-        mapInstance: React.MutableRefObject<mapboxgl.Map | null>, 
+        mapInstance: mapboxgl.Map | null, 
         waypoints: React.MutableRefObject<Array<number[]>>,
         setMarkers: any,) => void,
         setMarkers: any,
@@ -82,15 +82,15 @@ const waypointExists = (lng: number, lat: number, waypoints: Array<number[]>) =>
 export const addMarkerBasedOnCoordinates = (
     lng: number, 
     lat: number, 
-    mapInstance: React.MutableRefObject<mapboxgl.Map | null>, 
+    mapInstance: mapboxgl.Map | null,
     waypoints: React.MutableRefObject<Array<number[]>>,
     setMarkers:any
     ) => {
         if (waypointExists(lng, lat, waypoints.current)) {
             return
         }
-        if (mapInstance.current && waypoints.current.length < 4) {
-            const marker = new mapboxgl.Marker({ color: 'blue' }).setLngLat([lng, lat]).addTo(mapInstance.current)
+        if (mapInstance && waypoints.current.length < 4) {
+            const marker = new mapboxgl.Marker({ color: 'blue' }).setLngLat([lng, lat]).addTo(mapInstance)
             setMarkers((prevMarkers : any)=>[...prevMarkers, marker])
             marker.getElement().style.zIndex = "10"
             waypoints.current.push([lng, lat])

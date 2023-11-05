@@ -1,61 +1,60 @@
-import {useEffect} from 'react'
-import mapboxgl from 'mapbox-gl'
-import 'mapbox-gl/dist/mapbox-gl.css'
-import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
-import initializeMap from '../hooks/initializeMap'
-import { addMarkerBasedOnCoordinates } from '../hooks/mapMethods'
-import styles from '../styles/Mapbox.module.css'
-import { MapComponentProps } from '../types/types'
-import { cleanupMap } from '../hooks/initializeMap'
-const MapComponent: React.FC<MapComponentProps> = ({ 
-    access_token, 
-    setOptions, 
-    setMarkers, 
-    mapContainerRef, 
-    mapInstance, 
-    geocoderRef,
-    waypoints,
-    mapLoadedRef
-  }) => {  
-    const addMarker = (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
-        if(!mapLoadedRef.current) return
-        addMarkerBasedOnCoordinates(event.lngLat.lng, event.lngLat.lat, mapInstance, waypoints, setMarkers)
-    }
+import { useCallback, useEffect, useState } from 'react';
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import initializeMap from '../hooks/initializeMap';
+import { addMarkerBasedOnCoordinates } from '../hooks/mapMethods';
+import styles from '../styles/Mapbox.module.css';
+import { MapComponentProps } from '../types/types';
 
-    const onMapLoaded = () => {
-        console.log("Map has loaded")
-    }
+const MapComponent: React.FC<MapComponentProps> = ({
+  access_token,
+  setOptions,
+  setMarkers,
+  mapContainerRef,
+  mapInstance,
+  geocoderRef,
+  waypoints,
+  mapLoadedRef,
+}) => {
+  const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        let map: mapboxgl.Map | undefined
-
-        if (mapContainerRef.current) {
-        initializeMap({
-            mapContainerRef,
-            mapInstance,
-            geocoderRef,
-            addMarker,
-            setOptions,
-            setMarkers,
-            waypoints,
-            access_token,
-        }) .then(map => {
-            map.on('click', (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => addMarker(event))
-            mapLoadedRef.current = true
-            onMapLoaded()
-          })
-          .catch(error => {
-            console.error('Error initializing the map:', error)
-          })
-        }
-        return () => {
-            if (map) {
-                cleanupMap(map, geocoderRef, waypoints)
-            }
-        }
-    }, [access_token, mapContainerRef])
-
-    return <div ref={mapContainerRef} className={styles.container} />
-  }
+  const addMarker = useCallback((event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
+    addMarkerBasedOnCoordinates(event.lngLat.lng, event.lngLat.lat, mapInstance.current, waypoints, setMarkers);
+  }, [mapInstance, waypoints, setMarkers]);
   
-  export default MapComponent
+
+  const onMapLoaded = () => {
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    initializeMap({
+      mapContainerRef,
+      mapInstance,
+      geocoderRef,
+      addMarker,
+      setOptions,
+      setMarkers,
+      waypoints,
+      access_token,
+      mapLoadedRef,
+      onMapLoaded,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (mapLoadedRef.current && mapInstance.current) {
+      const currentMap = mapInstance.current;
+      currentMap.on('click', addMarker);
+      return () => {
+        currentMap.off('click', addMarker);
+      };
+    }
+  }, [isLoading, addMarker]);
+  
+  
+  return <div ref={mapContainerRef} className={styles.container} />;
+};
+
+export default MapComponent;
