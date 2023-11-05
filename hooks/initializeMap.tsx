@@ -38,11 +38,11 @@ interface InitializeMapProps {
       accessToken: access_token,
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/streets-v11', 
-      center: [17.9115, 47.0910],
+      center: [20.1414, 46.2530], 
       zoom: 12,
     })
   }
-
+  
   const customMarker = new mapboxgl.Marker({
     color: 'orange',
     draggable: true,
@@ -82,8 +82,6 @@ interface InitializeMapProps {
     map?.on('click', (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => addMarker(event));
     onMapLoaded()
 });
-
-
 
   return () => {
     map?.remove()

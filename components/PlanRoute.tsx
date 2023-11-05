@@ -21,6 +21,7 @@ const PlanRoute = ({ routeProps } : RouteProps) => {
             className={styles.buttons}
             variant="contained" 
             color="secondary" 
+            disabled={waypoints.current.length < 2}
             onClick={e=> handleRoute(
                 e,
                 mapInstance,
