@@ -33,6 +33,7 @@ const ClearMarkers = ({ clearProps } : ClearProps) => {
                 setRouteLength,
                 setRouteDuration
             )}
+            style={{marginBottom:'16px'}}
         >
             Clear markers
         </Button>

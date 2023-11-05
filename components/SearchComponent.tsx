@@ -89,9 +89,10 @@ const SearchComponent = ({searchProps} : SearchProps) => {
                     setSearchValueElements([...searchValueElements, ''])
                     setSelectedCoordinateElements([...selectedCoordinateElements, null])
                 }}
+                style={{ padding: '8px 0' }}
             >
                 <AddCircleIcon/>
-                <Typography variant="body1" style={{ marginLeft: '8px' }}>
+                <Typography variant="body1" style={{ marginLeft: '5px' }}>
                     Add new address
                 </Typography>
             </IconButton>
@@ -114,7 +115,7 @@ const SearchComponent = ({searchProps} : SearchProps) => {
                         }
                     })
                 }}
-                style={{backgroundColor: '#02d12c'}}
+                style={{backgroundColor: '#02d12c', marginBottom:'16px'}}
             >
                 Add Marker <i style={{textTransform:'lowercase', fontStyle:'normal'}}>(s)</i>
             </Button>
@@ -124,5 +125,3 @@ const SearchComponent = ({searchProps} : SearchProps) => {
 }
 
 export default SearchComponent
-
-
