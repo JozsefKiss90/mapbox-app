@@ -18,11 +18,11 @@ const UISidebar = (props: UISidebarProps) => {
     setRouteProfile,
     handleSubmit
   } = useSidebarState({
-    mapInstance: props.mapInstance,
-    waypoints: props.waypoints,
-    access_token: props.access_token,
-    setRouteLength: props.setRouteLength,
-    setRouteDuration: props.setRouteDuration
+      mapInstance: props.mapInstance,
+      waypoints: props.waypoints,
+      access_token: props.access_token,
+      setRouteLength: props.setRouteLength,
+      setRouteDuration: props.setRouteDuration
   });
 
   const mapConfigProps = {
